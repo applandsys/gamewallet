@@ -1,0 +1,26 @@
+        .footer {
+                 left: 0;
+            bottom: 0;
+            width: 100%;
+            color: #ccc;
+            text-align: center;
+        }
+		
+        body{
+         font-family: Open Sans;
+
+         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#d9ca9c+0,fdfcfa+100 */
+        background: #d9ca9c; /* Old browsers */
+        background: -moz-linear-gradient(top, #d9ca9c 0%, #fdfcfa 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #d9ca9c 0%,#fdfcfa 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #d9ca9c 0%,#fdfcfa 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9ca9c', endColorstr='#fdfcfa',GradientType=0 ); /* IE6-9 */
+         min-height: 100vh;
+        }
+
+        @font-face {
+          font-family: 'Open Sans';
+          font-style: normal;
+          font-weight: 400;
+          src: local('Open Sans'), local('OpenSans'), url('http://themes.googleusercontent.com/static/fonts/opensans/v5/cJZKeOuBrn4kERxqtaUH3T8E0i7KZn-EPnyo3HZu7kw.woff') format('woff');
+        }

@@ -1,0 +1,3713 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="Content-Security-Policy" 
+         content="default-src *; 
+                  style-src * 'self' 'unsafe-inline' 'unsafe-eval'; 
+                  script-src * 'self' 'unsafe-inline' 'unsafe-eval';">
+		
+		<link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+		<link rel="stylesheet" href="lib/onsen/css/onsen-css-components.css">
+		<script src="lib/onsen/js/onsenui.js"></script>
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="css/offline-theme-chrome.css">
+		<link rel="stylesheet" href="mystyle.css">
+		<script src="jquery/dist/jquery.min.js"></script>
+		
+		
+		<script type="text/javascript" src="cordova.js"></script>
+		<!--<script type="text/javascript" src="js/offline.min.js"></script>-->
+		<script src="apps.js"></script>
+
+		<script src="appjs/config.js"></script>
+		<script src="appjs/function.js"></script>
+		
+		<script src="appjs/main.js"></script>
+		<script src="appjs/gift.js"></script>
+		<script src="appjs/withdraw.js"></script>
+		<script src="appjs/banktobank.js"></script>
+		<script src="appjs/buychips.js"></script>
+		
+	</head>
+
+<body>
+<!--<div id="covered" style="height: 100%; width: 100%; background: #ccc; z-index: 999; border: 2px solid red"> No Internet </div>-->
+<!--navigation right side start-->
+<ons-navigator id="appNavigator" swipeable swipe-target-width="80px">
+ <ons-page>
+<ons-splitter>
+  <ons-splitter-side id="menu" side="right" width="220px" collapse swipeable>
+   
+      <ons-list>
+        
+		<ons-list-item onclick="fn.load('home.html');" tappable>
+          <i class="zmdi zmdi-home"></i> &nbsp; Home
+        </ons-list-item>
+		
+		<ons-list-item onclick="fn.load('account_info.html')" tappable>
+         <i class="zmdi zmdi-format-list-bulleted"></i> &nbsp; Account Info
+        </ons-list-item>
+		
+		<ons-list-item onclick="fn.load('history.html')" tappable>
+         <i class="zmdi zmdi-format-list-bulleted"></i> &nbsp; Statement
+        </ons-list-item>
+        
+		<ons-list-item onclick="fn.load('help.html')" tappable>
+          <i class="zmdi zmdi-pin-help"></i> &nbsp;  Help
+        </ons-list-item>
+		
+		<ons-list-item onclick="fn.load('notification.html')" tappable>
+          <i class="zmdi zmdi-label"></i> &nbsp;  Notification
+        </ons-list-item>
+		
+		<ons-list-item  onclick="window.open('https://www.youtube.com/channel/UC1A639YBCf2ovkOC1YhhgTA?pbjreload=10', '_system');" tappable>
+         <i class="zmdi zmdi-youtube-play"></i> 
+			&nbsp; Tutorial 
+        </ons-list-item>
+		
+		<ons-list-item  onclick="window.open('https://play.google.com/store/apps/details?id=com.teenpattigolds.app', '_system');" tappable>
+         <i class="zmdi zmdi-thumb-up"></i> 
+			&nbsp;  Rate Us 
+        </ons-list-item>
+		
+		<ons-list-item  onclick="window.open('https://www.facebook.com/tpgminibank', '_system');" tappable>
+        <i class="zmdi zmdi-facebook-box"></i>
+			&nbsp; Follow us Facebook 
+        </ons-list-item>
+		
+		<ons-list-item  onclick="window.open('https://www.youtube.com/channel/UC1A639YBCf2ovkOC1YhhgTA?pbjreload=10', '_system');" tappable>
+         <i class="zmdi zmdi-youtube-play"></i> 
+			&nbsp; Follow on Youtube 
+        </ons-list-item>
+		
+		<ons-list-item onclick="ons.notification.alert('Coming Soon');" tappable>
+          <i class="zmdi zmdi-comment-list"></i> &nbsp;  Requiest Bkash SMS
+        </ons-list-item>
+		
+		<ons-list-item onclick="fn.load('change_pass.html')" tappable>
+         <i class="zmdi zmdi-lock-open"></i> &nbsp; Change Password
+        </ons-list-item>
+		
+		 <ons-list-item onclick="fn.logout()" tappable>
+         <i class="zmdi zmdi-power"></i> &nbsp; Logout
+         </ons-list-item>
+		
+		 <ons-list-item onclick="fn.exit()" tappable>
+         <i class="zmdi zmdi-power"></i> &nbsp; Exit
+         </ons-list-item>
+		
+      </ons-list>
+   
+  </ons-splitter-side>
+  <ons-splitter-content id="content" page="home.html"></ons-splitter-content>
+</ons-splitter>
+ </ons-page>
+</ons-navigator>
+<!--- / slide menubar -->
+<!--navigation right side end-->
+
+<!--------------Navigtion end----------------------------------------------------------------->
+
+
+
+<template id="home.html">
+  <ons-page id="home">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.historyOpen()">
+        <i class="zmdi zmdi-email"></i>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	  
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+
+	
+	<div  id="balance_box" class="balance_box">
+	
+		<ons-row>
+				<ons-col class="" width="90px">
+				<div style="display: inline-block"><img src="images/add_photo.png" width="80px;"></div>
+				</ons-col>
+				<ons-col class="" >
+				 <div class="player_name" style=""></div>
+				 <div class="tap_for_balance" style="" id="current_balance">  <img src="images/coin_icon.png" width="36px;" class="balancecoin">
+					<div class="balance_info" onclick="balanceInfo()"> Tap for Balance </div>
+				</div>
+				</ons-col>
+		</ons-row>
+	 </div>	
+	<div  class="content-box">
+	  <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<ons-row>
+				<ons-col class="icon_box" style="border-right: 1px solid #bcbec0; border-bottom: 1px solid #bcbec0">
+					<div class="dashboard_icon" style=" display: inline-block; padding-top: 10px; padding-left: 38px;">
+						<img onclick="fn.load('gift_chips.html')"  class="center" style="display: inline-block" src="images/gift_icon.png" style="padding-left: 16px;"> <!-- L#199 -->
+						<br>
+						
+								
+						<div class="home-event center"> Gift  Chips </div>
+						
+					</div>	
+				</ons-col>
+				<ons-col class="icon_box" style="border-bottom: 1px solid #bcbec0">
+					<div class="dashboard_icon">
+						<img onclick="fn.load('withdraw_chips.html')"  class="center" 
+								style="display: inline-block;margin-left: 6px;" src="images/withdraw_chips.png" >
+						<br>
+						<div class="home-event"> Withdraw Chips </div>
+					
+					</div>
+				</ons-col>
+		
+		</ons-row>
+		
+		<ons-row>
+				<ons-col class="icon_box" style="border-bottom: 1px solid #bcbec0; border-right: 1px solid #bcbec0;">
+					<div class="dashboard_icon">
+						<img onclick="fn.load('bank_to_bank.html')" class="" style="display: inline-block; margin-left: 5px" src="images/bank_to_bank.png" >
+						<br>
+						<div class="home-event"> Bank to Bank </div>
+						
+					</div>
+				</ons-col>
+				<ons-col class="icon_box" style="border-bottom: 1px solid #bcbec0;  border-right: 1px solid #bcbec0;">
+					<div class="dashboard_icon">
+						<img  onclick="fn.load('buy_chips.html')" class="" style="display: inline-block" src="images/buy_chips.png" >
+							<br>
+						<div class="home-event"> Buy Chips </div>
+						
+					</div>
+				</ons-col>
+		</ons-row>
+		<ons-row>
+			<!--
+				<ons-col class="icon_box" style="border-bottom: 1px solid #bcbec0; border-right: 1px solid #bcbec0;">
+					<div class="dashboard_icon">
+						<img onclick="fn.load('request_chips.html')" class="" style="display: inline-block" src="images/request_chips.png" >
+						
+						<img onclick="fn.load('request_chips.html')" class="" style="display: inline-block" src="images/request_chips.png" >
+						<br>
+						<div class="home-event"> Request Chips </div>
+						
+					</div>
+				</ons-col>
+			-->
+				<ons-col class="icon_box" style="border-bottom: 1px solid #bcbec0; border-right: 1px solid #bcbec0;">
+					<div class="dashboard_icon">
+						<!--
+						<img onclick="fn.load('request_chips.html')" class="" style="display: inline-block" src="images/request_chips.png" >
+						-->
+						<img onclick="fn.load('mBank_atm.html')" class="" style="display: inline-block" src="images/97cr_atm.png" >
+						<br>
+						<div class="home-event"> mBank to GameBank </div>
+						
+					</div>
+				</ons-col>
+				<ons-col class="icon_box" style="border-bottom: 1px solid #bcbec0;">
+					<div class="dashboard_icon">
+						<!--
+						<img onclick="fn.load('refer_friend.html')" class="" style="display: inline-block" src="images/refer_friend.png" >
+						-->
+
+						<img onclick="fn.load('refer_friend.html');" class="" style="display: inline-block" src="images/refer_friend.png" >
+							<br>
+						<div class="home-event"> Refer a Friend  </div>
+						
+					</div>
+				</ons-col>
+		</ons-row>
+		
+		<center>
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+		</center>
+	</div>
+	
+	   
+  </ons-page>
+</template>
+<!--- Dashboard end ---------------------------------------------------------------------------------------------------------------->
+
+
+
+<template id="history.html">
+  <ons-page id="history">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+        <i class="zmdi zmdi-home"></i>
+        </ons-toolbar-button>
+      </div>
+     
+	 <div class="center">
+        MinibankBD HOME
+      </div>
+	  
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+
+	<div  id="history-search-box">
+     <center> 
+		<form id="history-search-form">
+				<input id="history_search_input"  type="text" min="1" max="100" class="search_input" placeholder="Search by Playerid" required> 
+		<input id="history_search_button" class="btn-search" type="submit" value="search"> 
+		</form>
+		<center> 
+    </div>
+	
+	<div  class="content-box">
+     <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	 <div class="apps-page-title center" style="text-align: center; padding-top: 5px;">Your Transaction History</div>
+	  
+		<div id="history_content">
+			
+		</div>
+	  
+    </div>
+
+  </ons-page>
+</template>
+<!---  History End------------------------------------------------------------------------------------------------------------------ -->
+
+
+
+
+<template id="gift_chips.html">
+  <ons-page id="gift_chips_page">
+      <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+        <i class="zmdi zmdi-home"></i>
+        </ons-toolbar-button>
+      </div>
+     
+	 <div class="center">
+        MinibankBD HOME
+      </div>
+	  
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	<div  id="balance_box" class="balance_box">
+		<ons-row>
+				<ons-col class="" width="90px">
+				<div style="display: inline-block"><img src="images/add_photo.png" width="80px;"></div>
+				</ons-col>
+				<ons-col class="" >
+				 <div class="player_name" style=""></div>
+				 <div class="tap_for_balance" style="" id="current_balance">  <img src="images/coin_icon.png" width="36px;" class="balancecoin">
+					<div class="balance_info" onclick="setTimeout(balanceInfo(), 5000)"> Tap for Balance </div>
+				</div>
+				</ons-col>
+		</ons-row>
+	 </div>
+	
+	<div  class="content-box">
+		<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<center>
+		 
+	<br/>
+	<br/>
+			<div id="gift_chips_wrapper" class="center">
+			
+				<div class="processing-page-img"> 
+					<img style="margin: 1px auto" src="images/gift_icon.png" width="30%"> 
+				</div>	
+				
+				<div class="apps-page-title">Gift Your Chips</div>
+				<div class="home-vent-tag"> when ever you want </div>
+				 <div style="text-align: center;">
+					<form id="gift_chips_form">
+					<p>
+						<label> Player Id : </label><br/>
+						<input onchange="trimSpace(this.value);" id="gift_chips_playerid" type="text" class="apps_input playeridinput" placeholder="Valid Player Id or Bullet Code" pattern="[A-Za-z]{4}[0-9]{3}|100+[0-9]{5,15}" title="Ex: HKPO101 or 10012574896366" style="text-transform: uppercase; font-size: 12px;" style="text-transform: uppercase" required>
+					</p>
+					<p>
+					    <label> Amount Chips : </label><br/>
+						<input id="gift_chips_amount"  type="number" min="1" step="1"  max="100" class="apps_input" onchange="fn.nozero(this.val)" placeholder="1-100CR" required>
+					</p>
+					<p>
+						<label> Comments : </label><br/>
+					  <input id="gift_chips_comments" type="text" class="apps_input" placeholder="Write a Comments Optional">
+					</p>
+					<p style="margin-top: 30px;">
+					  <input type="submit" class="apps_button" value="Gift Chips">
+					</p>
+					
+					</form>
+				  </div>
+				  
+					<button onclick="fn.load('home.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Back 
+					</button>  
+				
+			</div>
+		<!-------------------- gift chips and confirm devider------->	
+			<div id="gift_chips_confirm_wrapper" class="activity_page_content" style="display:none; color#000000">
+				
+				<div class=" bg-title">Confirm Gift</div>
+				<br/>
+				<form id="gift_chips_form_confirm">
+					<input id="gift_id" type="hidden">
+					
+					<table id="customers">
+						<tr>
+							<td> PlayerId </td> 
+							<td> <div id="gift_chips_playerid_confirm_show" style="text-transform: uppercase"> </div>
+								<input id="gift_chips_playerid_confirm" type="hidden">
+							</td>
+						</tr>
+						
+						<tr>
+							<td> Amount CR </td> 
+							<td> <div id="gift_chips_amount_confirm_show"> </div>
+								<input id="gift_chips_amount_confirm"  type="hidden" step="1" max="100" >
+							</td>
+						</tr>
+						
+						<tr>
+							<td> Comments </td> 
+							<td> <div id="gift_chips_comments_confirm_show"> </div>
+								<input id="gift_chips_comments_confirm" type="hidden">
+							</td>
+						</tr>
+					
+					</table>
+					
+					<p style="margin-top: 30px;">
+					  <input type="submit" class="apps_button" value="Confirm">
+					</p>
+					
+					</form>
+					
+					
+					
+					<button onclick="fn.load('home.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Back 
+					</button>  
+		</center>
+
+		</div>
+	</div>
+	
+	   
+  </ons-page>
+</template>
+<!-- ./ --- gift chips end ------------------------------------------------------------------------------------ -->
+
+
+
+
+<template id="withdraw_chips.html">
+  <ons-page id="withdraw_chips_page">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div  id="balance_box" class="balance_box">
+		<ons-row>
+				<ons-col class="" width="90px">
+				<div style="display: inline-block"><img src="images/add_photo.png" width="80px;"></div>
+				</ons-col>
+				<ons-col class="" >
+				 <div class="player_name" style=""></div>
+				 <div class="tap_for_balance" style="" id="current_balance">  <img src="images/coin_icon.png" width="36px;" class="balancecoin">
+					<div class="balance_info" onclick="setTimeout(balanceInfo(), 5000)"> Tap for Balance </div>
+				</div>
+				</ons-col>
+		</ons-row>
+	 </div>
+	
+	<div style="" class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<center>
+		<br/>
+		<br/>
+		<br/>
+			<div id="withdraw_chips_wrapper" class="center">
+				<div class="processing-page-img"> 
+					<img style="margin: 1px auto" src="images/withdraw_chips.png" width="30%"> 
+				</div>	
+				
+				<div class="apps-page-title">Withdraw Your Chips</div>
+				<div class="home-vent-tag"> when ever you want </div>
+				 <div style="text-align: center;">
+				 
+					<form id="withdraw_chips_form">
+					<p>
+						<label> Chips Amount  </label><br/>
+						<input id="withdraw_chips_amount"  type="number" step="1" min="1" max="100" class="apps_input" onchange="fn.nozero(this.val)" placeholder="Enter amount of Cr" required>
+					</p>
+					
+					
+					<p style="margin-top: 30px;">
+					  <input type="submit" class="apps_button" value="Withdraw Chips">
+					</p>
+					
+					</form>
+				  </div>
+				
+			</div>
+			
+					<button onclick="fn.load('home.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Back 
+					</button>  
+			
+	</div>
+			
+  </ons-page>
+</template>
+
+<!-- ./ withdraw chips end --------------------------------------------------------------------------------------------------------------->
+
+
+
+
+<template id="bank_to_bank.html">
+  <ons-page id="bank_chips_page">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+    <div  id="balance_box" class="balance_box">
+		<ons-row>
+				<ons-col class="" width="90px">
+				<div style="display: inline-block"><img src="images/add_photo.png" width="80px;"></div>
+				</ons-col>
+				<ons-col class="" >
+				 <div class="player_name" style=""></div>
+				 <div class="tap_for_balance" style="" id="current_balance">  <img src="images/coin_icon.png" width="36px;" class="balancecoin">
+					<div class="balance_info" onclick="setTimeout(balanceInfo(), 5000)"> Tap for Balance </div>
+				</div>
+				</ons-col>
+		</ons-row>
+	 </div>
+	
+	<div style="" class="content-box">
+	 <div   id="ajaxloader" class="ajaxloader" style="display:none;"> <img src="images/ajaxload-5.gif"> </div>
+		<center>
+		
+		<br/>
+		<br/>
+			<div id="bank_to_bank_wrapper" class="center">
+				<div class="processing-page-img"> 
+					<img style="margin: 1px auto" src="images/bank_to_bank.png" width="20%"> 
+				</div>	
+				
+				<div class="apps-page-title">Bant to Bank Transfer </div>
+				<div class="home-vent-tag"> when ever you want </div>
+				 <div style="text-align: center;">
+				 
+					<form id="bank_to_bank_form">
+					
+						<p>
+							<label> To Minibank Id  </label><br/>
+							<input id="bank_to_bank_minibank_id" type="text" class="apps_input playeridinput"  placeholder="Enter a valid Minibank Id"  style="text-transform: uppercase" onchange="trimSpace(this.value);" pattern="[A-Za-z]{4}[0-9]{3}|100+[0-9]{5,15}" title="Ex: HKPO101 or 10012574896366" style="text-transform: uppercase; font-size: 12px;" style="text-transform: uppercase" required>
+			
+						</p>
+						<p>
+							<label> Chips Amount </label><br/>
+							<input id="bank_to_bank_amount" name="bank_to_bank_amount"  type="number" min="5" max="100" class="apps_input" placeholder="5CR-100CR" onchange="fn.btobamount(this.value)" required>
+						</p>
+						<p>
+							<label> Comments </label><br/>
+						  <input id="bank_to_bank_comments" type="text" class="apps_input" placeholder="Write a Comments Optional">
+						</p>
+						<p style="margin-top: 20px;">
+						  <input type="submit" class="apps_button" value="Bank Transfer">
+						</p>
+					
+					</form>
+					
+				  </div>
+					<button onclick="fn.load('home.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Back 
+					</button>
+			</div>
+			
+			<!--confirm bank to bank-->
+			<div id="bank_to_bank_confirm_wrapper" class="activity_page_content" style="display:none; color#000000">
+				
+				<div class="apps-page-title"> Confirm Bank to Bank </div>
+				<br/>
+				<form id="bank_to_bank_form_confirm">
+					
+					<input id="bank_to_bank_id" type="hidden">
+					
+					<table id="customers">
+						<tr>
+							<td> To Minibank Id </td> 
+							<td> <div id="bank_to_bank_minibankid_confirm_show" style="text-transform: uppercase"> </div>
+								<input id="bank_to_bank_minibankid_confirm" type="hidden">
+							</td>
+						</tr>
+						
+						<tr>
+							<td> A/C Holder Name </td> 
+							<td> <div id="bank_to_bank_name_confirm_show" style="text-transform: uppercase"> </div>
+								<input id="bank_to_bank_name_confirm" type="hidden">
+							</td>
+						</tr>
+						
+						<tr>
+							<td> Amount CR </td> 
+							<td> <div id="bank_to_bank_amount_confirm_show"> </div>
+								<input id="bank_to_bank_amount_confirm"  type="hidden" min="5" max="100" >
+							</td>
+						</tr>
+						
+						<tr>
+							<td> Comments </td> 
+							<td> <div id="bank_to_bank_comments_confirm_show"> </div>
+								<input id="bank_to_bank_comments_confirm" type="hidden">
+							</td>
+						</tr>
+					
+					</table>
+					
+					<p style="margin-top: 30px;">
+					  <input type="submit" class="apps_button" value="Confirm">
+					</p>
+					
+					</form>
+					
+					
+					<button onclick="fn.load('home.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Cancel 
+					</button>
+				</center>
+				
+			</div>	  
+	</div>
+  </ons-page>
+</template>
+<!-- ./bank to bank TRANSFER end ---------------------------------------------------------------------------------->
+
+
+<!-- Buy chips start BUY CHIPS menu-->
+
+<template id="buy_chips.html">
+  <ons-page id="buy_chips">
+    <ons-toolbar>
+	  <div class="left">
+        
+      </div>
+    
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div style="" class="content-box">
+		<div id="buy_chips_wrapper" class="center">
+		<br/>
+		<br/>
+		<br/>
+			
+				<div class="processing-page-img"> 
+					<img style="margin: 1px auto" src="images/buy_chips.png" width="30%"> 
+				</div>	
+				
+				<div class="apps-page-title"> BUY CHIPS 24 HOURS </div>
+				
+				<div style="text-align: center;" class="button-wrapper">
+					<p>
+						<ons-button id="direct_buy" modifier="large" class="blue_button" onclick="fn.pushpage('direct_gift_bkash.html', {data: {title: 'Open Order Detail Page'}},'fade');" tappable>  সরাসরি আইডিতে কিনুন (১-১০০CR)  </ons-button>
+					</p>
+					<p>
+						<ons-button id="minibak_load" modifier="large" onclick="fn.load('bank_buy_bkash.html')" class="blue_button">  মিনিব্যাংকে লোড করুন (৫-১০০CR) </ons-button> 
+					</p>
+					<p>
+						<ons-button id="another_bank_load" modifier="large" class="blue_button" onclick="fn.load('another_minibank_bkash.html')" >  অন্য মিনিব্যাংক আইডিতে কিনুন (৫-১০০ CR) </ons-button>
+					</p>
+					<p>
+						<ons-button id="companybank_buy.html" modifier="large" class="blue_button" onclick="fn.load('companybank_buy.html')" >  কোম্পানীর ব্যাংকে কিনুন  (১০০  CR)</ons-button>
+					</p>
+				</div>	
+				
+				<div class="bkash_tagline">
+					মিনিব্যাংক বিডি অনলাইন মাধ্যম থেকে আপনি  <br/> <span style="font-weight: bold"> ২৪ ঘন্টা যে কোন সময়  </span> <br/> তিনপাত্তি গোল্ড চিপস ক্রয় করতে পারেন
+				</div>
+				
+			
+				<div class="help-line cener" style="margin: auto; width: 90%">
+					<span class="communication">যে কোন সমস্যায় আমাদের হেল্প লাইনে যোগাযোগ করুন <br/>
+					<div class="help_number" id="help_line_number"> </div>
+				</div>
+				
+		
+				
+				
+				<center>
+					<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+						<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+					</div>
+				</center>
+		</div>	
+	</div>	
+  </ons-page>
+</template>
+<!-- ./ Buy Chips Menu page end  -->
+
+
+
+
+
+<!-- Direct Gift Bkash == Buy chip buy korar 1st step ekhane player id and amount dibe pore payment option asbe  --->
+<template id="direct_gift_bkash.html">
+  <ons-page id="direct_gift_bkash">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+            <ons-back-button>Back</ons-back-button>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+		<div id="online_buy_wrapper" class="center">
+			<center>
+			<br/><br/>
+			
+					<div class="bg-title">	সরাসরি আইডিতে কিনুন   </div>
+			<br/><br/>
+					<form id="direct_buy_bkash_first">
+					
+						<p>
+							<label class="bangla-label"> যে আইডিতে নিতে চান  সেই <br/> প্লেয়ার আইডি/বুলেট কোড লিখুন </label> <br/>
+							<input onchange="trimSpace(this.value);" id="direct_buy_bkash_playerid" type="text" class="apps_input playeridinput"  pattern="[A-Za-z]{4}[0-9]{3}|100+[0-9]{5,12}" title="Ex: HKPO101 or 10012574896366" style="text-transform: uppercase" placeholder="Enter a Valid Player Id/Bullet code"  style="text-transform: uppercase" required>
+						</p>
+						
+											
+						<p style="padding-top: 10px;">
+							<label class="bangla-label">  কত কোটি কিনবেন তা নিচে লিখুন  </label> <br/>
+							<input id="direct_buy_bkash_amount" type="number" class="apps_input" min="1" step="1" max="100" placeholder="Enter amount of CR (1CR-100CR)"  style="text-transform: uppercase" required>
+						</p>
+				
+				
+						<p style="margin-top: 20px;">
+						  <input type="submit" class="apps_button"  value=" পরবর্তি অপশনে যান ">
+						</p>
+						
+						
+						<p style="margin-top: 20px; padding: 20px;">
+						 <ons-back-button>Back</ons-back-button>
+							<button onclick="fn.load('buy_chips.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+					</form>
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- end 2nd step of buy chip Gift (direct buy online)-->
+<!-- .// Direct Gift Bkash == Buy chip buy korar 1st step ekhane player id and amount dibe pore payment option asbe  --->
+
+
+<!-- PAYMENT OPTION DIRECT BUY == Direct Buy er jonno Payment option select korte hobe  -->
+<template id="payment_option_select.html">
+  <ons-page id="payment_option_select">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div class="content-box">
+			<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	
+		<div id="payment_option_select_wrapper" class="center">
+			<center>
+				<br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+					<br/>	
+					<div id="payment_option_box">
+						<div id="bkash_sendmoney" onclick="fn.load('direct_gift_bkash_paymentoption_personal.html')"> 			
+							<img src="images/bkash_sendmoney.png" width="60%"> 						
+						</div> 
+						<br/>
+						<div id="bkash_payment" onclick="fn.load('direct_gift_bkash_paymentoption_payment.html')"> 	<img src="images/bkash_payment.png" width="60%"> 					</div> <br/>
+						<div id="rocket_payment" onclick="openRocket()"> 	<img src="images/rocket.png" width="60%"> 	</div> <br/>
+						<!--
+						<div id="nagad_payment" onclick="openNagad()"> 		<img src="images/nagad.png" width="60%"> 		</div> <br/>
+						-->
+						<div id="nagad_payment" onclick="fn.load('direct_gift_nagad_paymentoption.html')"> 		<img src="images/nagad.png" width="60%"> 		
+						</div>
+					</div>
+			</center>
+
+				<p style="padding: 8px;">
+							<button onclick="fn.load('direct_gift_bkash.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+			
+		</div>	
+								
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+
+
+<!-- ..// Direct gift bkash Payment sim   Instruction -->
+<template id="direct_gift_bkash_paymentoption_payment.html">
+  <ons-page id="direct_gift_bkash_paymentoption_payment">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div class="content-box">
+			<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	
+		<div id="online_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+					
+						<div id="bkash-buy-instruction">
+							
+						</div>
+						
+						<br/>
+						
+						<p style="margin-top: 15px;">
+						  <button type="submit" class="apps_button" onclick="confirmquickbuy('bkash_payment')"> কনফার্ম </button>
+						</p>
+						
+						
+						<div id="bkash-buy-terms">
+							নোট: বিকাশ পেমেন্ট ব্যতিত ফ্লেক্সিলোড  করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+							<br/>
+
+						
+						<p style="padding: 8px;">
+							<button onclick="fn.load('payment_option_select.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Direct gift bkash Payment sim   Instruction step 1-->
+
+<!-- Direct Buy Nagad after payment Instruction -->
+<template id="direct_gift_nagad_paymentoption.html">
+  <ons-page id="direct_gift_nagad_paymentoption">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+       MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+			<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	
+		<div id="online_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+					
+						<div id="nagad_buy_instruction">
+							
+						</div>
+						<br/>
+						<p style="margin-top: 15px;">
+						  <button type="submit" class="apps_button" onclick="fn.load('direct_gift_nagad_paymentconfirm.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+						<br/>
+						
+						<div id="bkash-buy-terms">
+							নোট:  নগদ সেন্ডমানি ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+							<br/>
+
+					
+						
+						
+						<p style="padding: 8px;">
+							<button onclick="fn.load('payment_option_select.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- Direct Buy Nagad after payment Instruction -->
+
+<!-- direct buy Nagad COnfirmation-->
+<template id="direct_gift_nagad_paymentconfirm.html">
+  <ons-page id="direct_gift_nagad_paymentconfirm">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="bagad_buy_wrapper" class="center">
+			<center>
+				<br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+						<div id="nagad_buy_instruction_confirm">
+							আপনার মোবাইলের ইনবক্সে  Nagad থেকে আসা এসএমএসটি কপি করে পেস্ট করুন অথবা  TxnID টি লিখুন তারপর  কনফার্ম বাটনে চাপ দিন
+						</div>
+				
+					
+					<form id="direct_buy_nagad_confirm">
+
+					
+							<p>
+								<label class="bangla-label"> নগদ  TxnID </label> <br/>
+								<input  id="direct_buy_nagad_txnid" type="text" class="apps_input" placeholder="Nagad TxnID"  style="text-transform: uppercase" onchange="Nagadtrxidfilterdirectby(this.value);" required>
+							</p>
+							
+							<p>
+							  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+			
+
+					</form>
+					
+						<p>
+							<button onclick="fn.load('direct_gift_nagad_paymentoption.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+<!-- ./ Direct Buy Nagad End--->
+
+
+
+
+<!-- Direct gift bkash Personal  Instruction -->
+<template id="direct_gift_bkash_paymentoption_personal.html">
+  <ons-page id="direct_gift_bkash_paymentoption_personal">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+			<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	
+		<div id="online_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+						<div id="bkash-buy-instruction" >
+							
+						</div>
+						
+						<br/>
+
+						<p style="margin-top: 15px;">
+						  <button type="submit" class="apps_button" onclick="confirmquickbuy('bkash_personal');"> কনফার্ম </button>
+						</p>
+						
+						<div id="bkash-buy-terms">
+							নোট: বিকাশ সেন্ডমানি ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+						
+						<p style="padding: 8px;">
+							<button onclick="fn.load('payment_option_select.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Direct gift bkash Personal  Instruction stpe 1-->
+
+
+
+
+
+
+<!-- ..// Direct gift bkash Payment sim   Confirm step 2-->
+<template id="direct_gift_bkash_paymentconfirm_payment.html">
+  <ons-page id="direct_gift_bkash_paymentconfirm_payment">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="online_buy_wrapper" class="center">
+			<center>
+				<br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+						<div id="bkash-payment_buy-instruction">
+							<!--বিকাশ থেকে আপনার মোবাইলে যে মেসেজটি <br/> এসেছে সেটা কপি করে পেস্ট বাটনে চাপ দিন  <br/> তারপর কনফার্ম বাটনে চাপ দিন -->
+							যে নাম্বার থেকে পেমেন্ট করেছেন  প্রথম বক্সে  সেই মোবাইল নাম্বার  এবং যে রেফারেন্স কোডটি ব্যবহার করেছেন  দ্বিতীয় বক্সে সেই রেফারেন্স কোড  লিখুন  তারপর   <br/> "Go For TrxId" বাটনে চাপ দিন 
+						</div>
+					
+					
+					<form id="direct_buy_bkashpayment_go_for_trxid">								
+						<p>
+							<label class="bangla-label"> যে নম্বর থেকে পেমেন্ট  করেছেন    </label> <br/>
+							<input id="direct_buy_bkash_payment_mobile" type="text" class="apps_input" placeholder="bKash Sender Number"  style="text-transform: uppercase" required>
+						</p>
+						
+						<p>
+								<label class="bangla-label"> যে রেফারেন্স কোডটি ব্যবহার করেছেন </label> <br/>
+								<input id="direct_buy_bkash_payment_refcode" type="text" class="apps_input" placeholder="Send Money Ref. Code"  style="text-transform: uppercase" required>
+						</p>
+						
+						<p> 
+							 <i class="zmdi zmdi-arrow-right"></i> <input type="submit" id="" class="go_for_button" value="Go for TrxId ">
+						</p>	
+					</form>		
+					
+					
+					<form id="direct_buy_bkash_payment_confirm">
+						<div  style="display: none" id="direct_buy_bkash_payment_trxid_inputbox">						
+							<p>
+								<label class="bangla-label">  বিকাশ  TrxID <!-- লিখুন  or মেসেজটি পেস্ট করুন --></label> <br/>
+								<input id="direct_buy_bkash_payment_trxid" type="text" class="apps_input" placeholder="bKash TrxID"  style="text-transform: uppercase" required>
+							</p>
+							
+							<p>
+							  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+						</div>
+					</form>
+					
+						<p>
+							<button onclick="fn.load('direct_gift_bkash_paymentoption_payment.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Direct gift bkash Payment sim // -->
+
+<!---######################### end of Direct buy -->
+
+
+<!-- ONLINE BANK LOAD -->
+<template id="bank_buy_bkash.html">
+  <ons-page id="bank_buy_bkash">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+		<div id="bank_buy_wrapper" class="center">
+			<center>
+			<br/><br/>
+			<div class="bg-title">	মিনিব্যাংকে লোড করুন</div>
+					<form id="bank_buy_bkash_first">
+					
+						<br/>
+						<br/>
+						<br/>
+						<p>
+							<label class="bangla-label"> কত কোটি চিপস মিনিব্যাংকে লোড করতে চান <br/> তা নিচের ঘরে লিখুন ( ৫-১০০)   </label> <br/><br/>
+							<input id="bank_buy_bkash_amount" type="number" class="apps_input" placeholder="Enter amount of CR (5CR-100CR)" min="5" max="100" value="5" style="text-transform: uppercase" required>
+						</p>
+				
+				
+						<p style="margin-top: 10px;">
+						  <input type="submit" class="apps_button"  value=" পরবর্তি অপশনে যান ">
+						</p>
+						
+				
+					
+					</form>
+					
+							
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('buy_chips.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+				
+			</center>	
+		</div>	
+		
+			<br/>	<br/>	<br/>	<br/>
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+
+
+<!-- BANK LOAD Online PAYMENT OPTION SELECT BKASH(p/P)/NAGAD etc -->
+<template id="bank_payment_option_select.html">
+  <ons-page id="bank_payment_option_select">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div class="content-box">
+			<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	
+		<div id="payment_option_select_wrapper" class="center">
+			<center>
+				<br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+					<br/>	
+					<div id="payment_option_box">
+						<div id="bkash_sendmoney" onclick="fn.load('bank_buy_bkash_paymentoption_personal.html')"> 			
+							<img src="images/bkash_sendmoney.png" width="60%"> 						
+						</div> 
+						<br/>
+						<div id="bkash_payment" onclick="fn.load('bank_buy_bkash_paymentoption_payment.html')"> 	
+							<img src="images/bkash_payment.png" width="60%"> 					
+						</div> 
+						<br/>
+						<div id="rocket_payment" onclick="openRocket()"> 	
+							<img src="images/rocket.png" width="60%"> 	
+						</div> 
+						<br/>
+						<div id="nagad_payment" onclick="fn.load('bank_buy_nagad_paymentoption_personal.html')"> 		
+							<img src="images/nagad.png" width="60%"> 		
+						</div> 
+						<br/>
+					</div>
+			</center>
+
+				<p style="padding: 8px;">
+					<button onclick="fn.load('bank_buy_bkash.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Back 
+					</button> 
+				</p>
+			
+		</div>	
+								
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- Bank load payment select option end-->
+
+
+<!-- Bank buy Bkash Prsoanl Instruction --->
+<template id="bank_buy_bkash_paymentoption_personal.html">
+  <ons-page id="bank_buy_bkash_paymentoption_personal">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="online_buy_wrapper" class="center">
+			<center>
+
+			<br/>
+
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+					
+						<div id="bkash-buy-instruction"></div>
+						
+						<br/>
+						
+						<p style="margin-top: 30px;">
+						  <button type="submit" class="apps_button" onclick="fn.load('bank_buy_bkash_paymentconfirm.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+							<br/>	<br/>
+							
+						
+						<div id="bkash-buy-terms">
+							নোট: বিকাশ সেন্ডমানি ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+							<br/>
+
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('bank_payment_option_select.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Bank buy Bkash Prsoanl Instruction step 1 --->
+
+<!--  Bank buy Bkash Prsoanl Confirm step 2  --->
+<template id="bank_buy_bkash_paymentconfirm.html">
+  <ons-page id="bank_buy_bkash_paymentconfirm">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div class="bank_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+					
+					<div id="bkash-buy-instruction_personal">
+							<!--বিকাশ থেকে আপনার মোবাইলে যে মেসেজটি <br/> এসেছে সেটা কপি করে পেস্ট বাটনে চাপ দিন  <br/> তারপর কনফার্ম বাটনে চাপ দিন -->
+							যে নাম্বার থেকে সেন্ড মানি করেছেন  প্রথম বক্সে  সেই মোবাইল নাম্বার  এবং যে রেফারেন্স কোডটি ব্যবহার করেছেন  দ্বিতীয় বক্সে সেই রেফারেন্স কোড  লিখুন  তারপর    "Go For TrxId" বাটনে চাপ দিন 
+					</div>
+					
+					<form id="bank_buy_go_for_trxid">
+					
+						<p>
+							<label class="bangla-label"> যে নম্বর থেকে সেন্ডমানি করেছেন    </label> <br/>
+							<input id="bank_buy_bkash_mobile" type="text" class="apps_input" placeholder="bKash Sender Number"  style="text-transform: uppercase" required>
+						</p>
+						
+						
+							<p>
+								<label class="bangla-label"> যে রেফারেন্স কোডটি ব্যবহার করেছেন </label> <br/>
+								<input id="bank_buy_bkash_refcode" type="text" class="apps_input" placeholder="Send Money Ref. Code"  style="text-transform: uppercase" required>
+							</p>
+						
+						
+						<p> 	
+							<i class="zmdi zmdi-arrow-right"></i>  <input type="submit" id="" class="go_for_button" value="Go for TrxId"> 
+						</p>
+					
+					</form>
+		
+					
+					<form id="bank_buy_bkash_confirm">
+					
+							
+
+						<div style="display: none" id="bank_buy_trxid_inputbox">	
+							<p >
+								<label class="bangla-label">  বিকাশ  TrxID <!-- লিখুন  or মেসেজটি পেস্ট করুন --></label> <br/>
+								<input id="bank_buy_bkash_trxid" type="text" class="apps_input" placeholder="bKash TrxID"  style="text-transform: uppercase" required>
+							</p>
+							
+							<p>
+								  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+						</div>	
+	
+					
+					</form>
+						<br/>
+
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('bank_buy_bkash_paymentoption_personal.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+				
+			</center>	
+		</div>	
+		
+			
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Bank buy Bkash Personal  END   --->
+
+
+<!-- Bank buy Bkash Payment Instruction --->
+<template id="bank_buy_bkash_paymentoption_payment.html">
+  <ons-page id="bank_buy_bkash_paymentoption_payment">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="online_buy_wrapper" class="center">
+			<center>
+
+			<br/>
+
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+						<br/>	
+						<div id="bkash-buy-instruction"></div>
+						
+						<br/>
+						<p style="margin-top: 30px;">
+						  <button type="submit" class="apps_button" onclick="fn.load('bank_buy_bkash_payment_paymentconfirm.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+							<br/>	<br/>
+							
+						
+						<div id="bkash-buy-terms">
+							নোট: বিকাশ পেমেন্ট ব্যতিত ফ্লেক্সিলোড  করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+							<br/>
+
+						
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('bank_payment_option_select.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!--..// Bank buy Bkash Payment Instruction end step 1 --->
+
+<!-- Bank buy Bkash Payment Confirmation  step 2 --->
+<template id="bank_buy_bkash_payment_paymentconfirm.html">
+  <ons-page id="bank_buy_bkash_payment_paymentconfirm">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div class="bank_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+					
+					<div id="bkash-payment_buy-instruction">
+							<!--বিকাশ থেকে আপনার মোবাইলে যে মেসেজটি <br/> এসেছে সেটা কপি করে পেস্ট বাটনে চাপ দিন  <br/> তারপর কনফার্ম বাটনে চাপ দিন -->
+							যে নাম্বার থেকে পেমেন্ট  করেছেন  প্রথম বক্সে সেই মোবাইল নাম্বার  এবং যে রেফারেন্স কোডটি ব্যবহার করেছেন  দ্বিতীয় বক্সে সেই রেফারেন্স কোড  লিখুন  তারপর    "Go For TrxId" বাটনে চাপ দিন  
+					</div>
+					
+					<form id="bank_buy_bikash_payment_go_for_trxid">
+					
+						<p>
+							<label class="bangla-label"> যে নম্বর থেকে পেমেন্ট  করেছেন    </label> <br/>
+							<input id="bank_buy_bkash_payment_mobile" type="text" class="apps_input" placeholder="bKash Sender Number"  style="text-transform: uppercase" required>
+						</p>
+						
+						
+							<p>
+								<label class="bangla-label"> যে রেফারেন্স কোডটি ব্যবহার করেছেন </label> <br/>
+								<input id="bank_buy_bkash_payment_refcode" type="text" class="apps_input" placeholder="bkash Payment Ref. Code"  style="text-transform: uppercase" required>
+							</p>
+						
+						
+						<p> 	
+							<i class="zmdi zmdi-arrow-right"></i>  <input type="submit" id="" class="go_for_button" value="Go for TrxId"> 
+						</p>
+					
+					</form>
+		
+					
+					<form id="bank_buy_bkash_payment_confirm">
+					
+							
+
+						<div style="display: none" id="bank_buy_bkash_payment_trxid_inputbox">	
+							<p >
+								<label class="bangla-label">  বিকাশ  TrxID <!-- লিখুন  or মেসেজটি পেস্ট করুন --></label> <br/>
+								<input id="bank_buy_bkash_payment_trxid" type="text" class="apps_input" placeholder="bKash TrxID"  style="text-transform: uppercase" required>
+							</p>
+							
+							<p>
+								  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+						</div>	
+		
+					
+					
+					</form>
+					
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Bank buy Bkash Payment Confirmation  end --->
+
+
+<!-- Bank buy NAGAD Payment Instruction  --->
+<template id="bank_buy_nagad_paymentoption_personal.html">
+  <ons-page id="bank_buy_nagad_paymentoption_personal">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="online_buy_wrapper" class="center">
+			<center>
+
+			<br/>
+
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+						<br/>	
+						<div id="nagad_buy_instruction"></div>
+						
+						<br/>
+							<p style="margin-top: 30px;">
+						  <button type="submit" class="apps_button" onclick="fn.load('bank_buy_nagad_payment_paymentconfirm.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+							<br/>	<br/>
+						
+						<div id="bkash-buy-terms">
+							নোট: নগদ সেন্ডমানি ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+							<br/>
+
+					
+							
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('bank_payment_option_select.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Bank buy NAGAD Payment Instruction end step 1  --->
+
+
+
+<!-- Bank buy  NAGAD Confirm end step 2  --->
+<template id="bank_buy_nagad_payment_paymentconfirm.html">
+  <ons-page id="bank_buy_nagad_payment_paymentconfirm">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div class="bank_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+					
+					<div id="bkash-payment_buy-instruction">
+							<!--বিকাশ থেকে আপনার মোবাইলে যে মেসেজটি <br/> এসেছে সেটা কপি করে পেস্ট বাটনে চাপ দিন  <br/> তারপর কনফার্ম বাটনে চাপ দিন -->
+							আপনার মোবাইলের ইনবক্সে  Nagad থেকে আসা এসএমএসটি কপি করে পেস্ট করুন অথবা  TxnID টি লিখুন তারপর  কনফার্ম বাটনে চাপ দিন
+					</div>
+					
+					<form id="bank_buy_nagad_confirm">
+					
+						
+							<p>
+								<label class="bangla-label"> নগদ  TxnID </label> <br/>
+								<input id="bank_buy_nagad_txnid" type="text" class="apps_input" placeholder="Nagad TxnID"  style="text-transform: uppercase" required>
+							</p>
+							
+							<p>
+							  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+			
+					</form>
+		
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+<!-- .. // Bank buy  NAGAD Confiramtaiton   --->
+
+<!-- ############################## Bank buy END HERE -->
+
+
+<!-- ANOTHER MINI Bank start   -->
+<template id="another_minibank_bkash.html">
+  <ons-page id="another_minibank_bkash">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="bank_buy_wrapper" class="center">
+			<center>
+			<br/><br/>
+			<div class="bg-title"> অন্য মিনিব্যাংকে লোড করুন</div>
+			<br/><br/>
+					<form id="another_minibank_bkash_buy_first">
+					
+						<br/>
+						<br/>
+						<br/>
+						<p>
+							<label class="bangla-label"> মিনিব্যাংক আইডি লিখুন  </label> <br/><br/>
+							<input id="another_minibank_bkash_buy_id" type="text" class="apps_input" placeholder="Another Minibank Id"  pattern="[A-Za-z]{4}[0-9]{3}|100+[0-9]{5,15}" title="Ex: HKPO101 or 10012574896366"   style="text-transform: uppercase"  onchange="trimSpace(this.value);" required>
+						</p>
+						
+						<p>
+							<label class="bangla-label">  কত কোটি চিপস ব্যাংকে লোড করবেন তা লিখুন   </label> <br/><br/>
+							<input id="another_minibank_bkash_amount" type="number" class="apps_input" placeholder="Enter amount of CR (5CR-100CR)" min="5" max="100"  style="text-transform: uppercase" required>
+						</p>
+				
+				
+						<p style="margin-top: 10px;">
+						  <input type="submit" class="apps_button"  value=" পরবর্তি অপশনে যান ">
+						</p>
+						
+						
+						
+						 <p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('buy_chips.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+						
+					
+					</form>
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+
+
+<!-- ANOTHER MINIBANK Payment OPtion select korbe  -->
+<template id="another_minibank_payment_option_select.html">
+  <ons-page id="bank_payment_option_select">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div class="content-box">
+	
+		<div id="ajaxloader" class="ajaxloader" style="display:none"> 
+			<img src="images/ajaxload-5.gif"> 
+		</div>
+	
+		<div id="payment_option_select_wrapper" class="center">
+			<center>
+				<br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+					<br/>	
+					<div id="payment_option_box">
+						<div id="bkash_sendmoney" onclick="fn.load('another_minibank_buy_bkash_paymentoption_personal.html')"> 			<img src="images/bkash_sendmoney.png" width="60%"> 						</div> <br/>
+						<div id="bkash_payment" onclick="fn.load('another_minibank_buy_bkash_paymentoption_payment.html')"> 	<img src="images/bkash_payment.png" width="60%"> 					</div> <br/>
+						
+						<div id="rocket_payment" onclick="openRocket()"> 	<img src="images/rocket.png" width="60%"> 	</div> <br/>
+						<!--
+						<div id="nagad_payment" onclick="openNagad()"> 		<img src="images/nagad.png" width="60%"> 		</div> <br/>
+						-->
+						<div id="nagad_payment" onclick="fn.load('another_minibank_buy_nagad_paymentoption.html')"> 		<img src="images/nagad.png" width="60%"> 		</div>
+					</div>
+			</center>
+
+				<p style="padding: 8px;">
+							<button onclick="fn.load('another_minibank_bkash.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+			
+		</div>	
+								
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+
+<!-- another minibank Bkash Personal Instruction-->
+<template id="another_minibank_buy_bkash_paymentoption_personal.html">
+  <ons-page id="another_minibank_buy_bkash_paymentoption_personal">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+		<div class="content-box">
+		 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="online_buy_wrapper" class="center">
+			<center>
+
+			<br/>
+
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+						<br/>	
+						<div id="bkash-buy-instruction"></div>
+						
+						<br/>
+							  <button type="submit" class="apps_button" onclick="fn.load('another_minibank_bkash_buy_paymentconfirm_personal.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+						<br/>	<br/>
+						
+						<div id="bkash-buy-terms">
+							নোট: বিকাশ সেন্ডমানি ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+						<br/>
+
+						<p style="margin-top: 30px;">
+					
+							
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('another_minibank_payment_option_select.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+<!-- ../Another minibank Bkash Personal Instruction step 1-->
+
+<!-- Another minibank Bkash Personal Comfirm step 2-->
+<template id="another_minibank_buy_bkash_paymentoption_payment.html">
+  <ons-page id="another_minibank_buy_bkash_paymentoption_payment">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+		<div class="content-box">
+		 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="online_buy_wrapper" class="center">
+			<center>
+
+			<br/>
+
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+						<br/>	
+						<div id="bkash-buy-instruction"></div>
+						
+						<br/>
+						<p style="margin-top: 30px;">
+						  <button type="submit" class="apps_button" onclick="fn.load('another_minibank_bkash_buy_paymentconfirm_payment.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+							<br/>	<br/>
+						
+						<div id="bkash-buy-terms">
+							নোট: বিকাশ পেমেন্ট  ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+							<br/>
+
+						
+							
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('another_minibank_payment_option_select.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Another minibank Bkash Personal Comfirm END -->
+
+
+<!-- Another minibank Bkash Payment sim Isntruction  -->
+<template id="another_minibank_bkash_buy_paymentconfirm_personal.html">
+  <ons-page id="another_minibank_bkash_buy_paymentconfirm_personal">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div class="another_bank_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+					
+					<div id="bkash-buy-instruction">
+							<!--বিকাশ থেকে আপনার মোবাইলে যে মেসেজটি <br/> এসেছে সেটা কপি করে পেস্ট বাটনে চাপ দিন  <br/> তারপর কনফার্ম বাটনে চাপ দিন -->
+							যে নাম্বার থেকে সেন্ড মানি করেছেন  প্রথম বক্সে মোবাইল নাম্বার  এবং যে রেফারেন্স কোডটি ব্যবহার করেছেন  দ্বিতীয় বক্সে সেই রেফারেন্স কোড  লিখুন  তারপর   <br/> "Go For TrxId" বাটনে চাপ দিন 
+					</div>
+					
+					<form id="another_bank_buy_go_for_trxid">
+											
+						
+						<p>
+							<label class="bangla-label"> যে নম্বর থেকে সেন্ডমানি করেছেন    </label> <br/>
+							<input id="another_bank_buy_bkash_mobile" type="text" class="apps_input" placeholder="bKash Sender Number"  style="text-transform: uppercase" required>
+						</p>
+						
+						<p>
+							<label class="bangla-label"> যে রেফারেন্স কোডটি ব্যবহার করেছেন </label> <br/>
+							<input id="another_bank_buy_bkash_refcode" type="text" class="apps_input" placeholder="Send Money Ref. Code"  style="text-transform: uppercase" required>
+						</p>
+							
+						
+						<p> 	
+							<i class="zmdi zmdi-arrow-right"></i> <input type="submit" id="" class="go_for_button" value="Go for TrxId">
+						</p>
+					
+					</form>
+					
+		
+					
+					<form id="another_bank_buy_bkash_confirm">
+
+						<div style="display: none" id="anoter_bank_buy_trxid_inputbox">	
+							<p >
+								<label class="bangla-label">  বিকাশ  TrxID <!-- লিখুন  or মেসেজটি পেস্ট করুন --></label> <br/>
+								<input id="another_minibank_bkash_trxid" type="text" class="apps_input" placeholder="bKash TrxID"  style="text-transform: uppercase" required>
+							</p>
+							
+							<p>
+								  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+						</div>	
+						<!--
+						<div style="margin-top: 10px" class="paste_button">
+							<ons-button id="direct_buy_paste" modifier="large" class="red_button"  tappable>  Paste </ons-button>
+						</div>
+						-->
+						
+						
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('another_minibank_buy_bkash_paymentoption_personal.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+					
+					</form>
+					
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- Another minibank Bkash Payment sim Instruction step 1 -->
+
+
+<!-- Another minibank Bkash Payment sim Instruction step 2 -->
+<template id="another_minibank_bkash_buy_paymentconfirm_payment.html">
+  <ons-page id="another_minibank_bkash_buy_paymentconfirm_payment">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div class="another_bank_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+					
+					<div id="bkash-buy-instruction">
+							<!--বিকাশ থেকে আপনার মোবাইলে যে মেসেজটি <br/> এসেছে সেটা কপি করে পেস্ট বাটনে চাপ দিন  <br/> তারপর কনফার্ম বাটনে চাপ দিন -->
+							যে নাম্বার থেকে পেমেন্ট করেছেন  প্রথম বক্সে মোবাইল নাম্বার  এবং যে রেফারেন্স কোডটি ব্যবহার করেছেন  দ্বিতীয় বক্সে সেই রেফারেন্স কোড  লিখুন  তারপর   <br/> "Go For TrxId" বাটনে চাপ দিন 
+					</div>
+					
+					<form id="another_bank_buy_go_for_trxid">
+											
+						
+						<p>
+							<label class="bangla-label"> যে নম্বর থেকে পেমেন্ট করেছেন    </label> <br/>
+							<input id="another_bank_buy_bkash_mobile" type="text" class="apps_input" placeholder="bKash Pesonal Number"  style="text-transform: uppercase" required>
+						</p>
+						
+						<p>
+								<label class="bangla-label"> যে রেফারেন্স কোডটি ব্যবহার করেছেন </label> <br/>
+								<input id="another_bank_buy_bkash_refcode" type="text" class="apps_input" placeholder="Ref. Code"  style="text-transform: uppercase" required>
+							</p>
+							
+						
+						<p> 
+								
+							 <i class="zmdi zmdi-arrow-right"></i> <input type="submit" id="" class="go_for_button" value="Go for TrxId">
+
+						</p>
+					
+					</form>
+					
+		
+					
+					<form id="another_bank_buy_bkash_confirm">
+
+						<div style="display: none" id="anoter_bank_buy_trxid_inputbox">	
+							<p >
+								<label class="bangla-label">  বিকাশ  TrxID <!-- লিখুন  or মেসেজটি পেস্ট করুন --></label> <br/>
+								<input id="another_minibank_bkash_trxid" type="text" class="apps_input" placeholder="bKash TrxID"  style="text-transform: uppercase" required>
+							</p>
+							
+							<p>
+								  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+						</div>	
+						<!--
+						<div style="margin-top: 10px" class="paste_button">
+							<ons-button id="direct_buy_paste" modifier="large" class="red_button"  tappable>  Paste </ons-button>
+						</div>
+						-->
+						
+						
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('buy_chips.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+					
+					</form>
+					
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center" > <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Another minibank Bkash Payment sim Instruction END  -->
+
+	
+	<!-- Another Bank buy NAGAD Payment Instruction  --->
+<template id="another_minibank_buy_nagad_paymentoption.html">
+  <ons-page id="another_minibank_buy_nagad_paymentoption">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+    </ons-toolbar>
+	
+
+	<div class="content-box">
+		<div id="ajaxloader" class="ajaxloader" style="display:none"> 
+			<img src="images/ajaxload-5.gif"> 
+		</div>
+		<div id="online_buy_wrapper" class="center">
+			<center>
+
+			<br/>
+
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+						<br/>	
+						<div id="nagad_buy_instruction"></div>
+						
+						<br/>
+							<p style="margin-top: 30px;">
+						  <button type="submit" class="apps_button" onclick="fn.load('another_minibank_buy_nagad_paymentconfirm.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+							<br/>	<br/>
+						
+						<div id="bkash-buy-terms">
+							নোট: নগদ সেন্ডমানি ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+							<br/>
+
+					
+							
+						<p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('buy_chips.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center" > <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// Another Bank buy NAGAD Payment Instruction end step 1  --->
+
+
+
+<!-- Anoterh Bank buy  NAGAD Confirm end step 2  --->
+<template id="another_minibank_buy_nagad_paymentconfirm.html">
+  <ons-page id="another_minibank_buy_nagad_paymentconfirm">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div class="bank_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+					
+					<div id="bkash-payment_buy-instruction">
+						আপনার মোবাইলের ইনবক্সে  Nagad থেকে আসা এসএমএসটি কপি করে পেস্ট করুন অথবা  TxnID টি লিখুন তারপর  কনফার্ম বাটনে চাপ দিন
+					</div>
+					
+					<form id="another_bank_buy_nagad_confirm">
+						<p>
+							<label class="bangla-label"> নগদ  TxnID </label> <br/>
+							<input id="another_bank_buy_nagad_txnid" type="text" class="apps_input" placeholder="Nagad TxnID"  style="text-transform: uppercase" required>
+						</p>
+						<p>
+						  <input type="submit" class="apps_button"  value="কনফার্ম">
+						</p>
+					</form>
+		
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+<!-------------------######################## ANOTHER MINIBANK END -->
+	
+<!-- Company Bank buy start-->
+<template id="companybank_buy.html">
+  <ons-page id="companybank_buy">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+		<div id="online_buy_wrapper" class="center">
+			<center>
+			<br/><br/>
+			
+					<div class="bg-title">	কোম্পানির ব্যাংকে   কিনুন   </div>
+			<br/><br/>
+					<form id="companybank_buy_first">
+					
+						<p>
+							<label class="bangla-label"> যে  ব্যাংক আইডিতে নিতে চান  সেই <br/> প্লেয়ার আইডি/বুলেট কোড লিখুন </label> <br/>
+							<input onchange="trimSpace(this.value);" id="companybank_buy_playerid" type="text" class="apps_input playeridinput"  pattern="[A-Za-z]{4}[0-9]{3}|100+[0-9]{5,12}" title="Ex: HKPO101 or 10012574896366" style="text-transform: uppercase" placeholder="Enter a Valid Player Id/Bullet code"  style="text-transform: uppercase" required>
+						</p>
+						
+											
+						<p style="padding-top: 10px; display: none" id="companybank_amount_input">
+							<label class="bangla-label">  কত কোটি কিনবেন তা নিচে লিখুন  (২০ থেকে ১০০)  </label> <br/>
+							<input id="companybank_amount" type="number" class="apps_input" min="20" step="20" max="100" placeholder="Enter amount of CR (20CR-100CR)" value="100" style="text-transform: uppercase" required>
+						</p>
+				
+				
+						<p style="margin-top: 20px;">
+						  <input type="submit" class="apps_button"  value=" পরবর্তি অপশনে যান ">
+						</p>
+						
+						
+						<p style="margin-top: 20px; padding: 20px;">
+							<button onclick="fn.load('buy_chips.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+					</form>
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center" > <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+	
+	
+<template id="companybank_payment_option_select.html">
+  <ons-page id="companybank_payment_option_select">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div class="content-box">
+			<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	
+		<div id="payment_option_select_wrapper" class="center">
+			<center>
+				<br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+					<br/>	
+					<div id="payment_option_box">
+						<div id="bkash_sendmoney" onclick="fn.load('companybank_buy_bkash_paymentoption_personal.html')"> 			<img src="images/bkash_sendmoney.png" width="60%"> 						</div> <br/>
+						<div id="bkash_payment" onclick="fn.load('companybank_bkash_paymentoption_payment.html')"> 	<img src="images/bkash_payment.png" width="60%"> 					</div> <br/>
+						<div id="rocket_payment" onclick="openRocket()"> 	<img src="images/rocket.png" width="60%"> 	</div> <br/>
+						<div id="nagad_payment" onclick="fn.load('companybank_nagad_paymentoption.html')"> 		<img src="images/nagad.png" width="60%"> 		</div> <br/>
+					</div>
+			</center>
+
+				<p style="padding: 8px;">
+							<button onclick="fn.load('companybank_buy.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+			
+		</div>	
+								
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>	
+
+
+
+
+<!-- CompanyBank Buy Nagad after payment Instruction -->
+<template id="companybank_nagad_paymentoption.html">
+  <ons-page id="companybank_nagad_paymentoption">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+       MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+			<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	
+		<div id="online_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+					
+						<div id="nagad_buy_instruction">
+							
+						</div>
+						<br/>
+						<p style="margin-top: 15px;">
+						  <button type="submit" class="apps_button" onclick="fn.load('companybank_nagad_paymentconfirm.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+						<br/>
+						
+						<div id="bkash-buy-terms">
+							নোট:  নগদ সেন্ডমানি ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+							<br/>
+
+					
+						
+						
+						<p style="padding: 8px;">
+							<button onclick="fn.load('home.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- CompanyBank Buy Nagad after payment Instruction -->
+
+<!-- COmpany Bank buy -->
+<template id="companybank_nagad_paymentconfirm.html">
+  <ons-page id="companybank_nagad_paymentconfirm">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="bagad_buy_wrapper" class="center">
+			<center>
+				<br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+						<div id="nagad_buy_instruction_confirm">
+							আপনার মোবাইলের ইনবক্সে  Nagad থেকে আসা এসএমএসটি কপি করে পেস্ট করুন অথবা  TxnID টি লিখুন তারপর  কনফার্ম বাটনে চাপ দিন
+						</div>
+				
+					
+					<form id="companybank_buy_nagad_confirm">
+
+					
+							<p>
+								<label class="bangla-label"> নগদ  TxnID </label> <br/>
+								<input  id="direct_buy_nagad_txnid" type="text" class="apps_input" placeholder="Nagad TxnID"  style="text-transform: uppercase" onchange="Nagadtrxidfilterdirectby(this.value);" required>
+							</p>
+							
+							<p>
+							  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+			
+
+					</form>
+					
+						<p>
+							<button onclick="fn.load('companybank_nagad_paymentoption.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center" > <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+<!-- ./ CompanyBank Buy Nagad End--->
+
+
+
+
+<!-- CompanyBank bkash Personal  Instruction -->
+<template id="companybank_buy_bkash_paymentoption_personal.html">
+  <ons-page id="companybank_buy_bkash_paymentoption_personal">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+			<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	
+		<div id="online_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+						<div id="bkash-buy-instruction" >
+							
+						</div>
+						
+						<br/>
+
+						<p style="margin-top: 15px;">
+						  <button type="submit" class="apps_button" onclick="fn.load('companybank_bkash_paymentconfirm_personal.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+						
+						<div id="bkash-buy-terms">
+							নোট: বিকাশ সেন্ডমানি ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+						
+						<p style="padding: 8px;">
+							<button onclick="fn.load('companybank_payment_option_select.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center" > <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// CompanyBank  bkash Personal  Instruction stpe 1-->
+
+<!-- --  CompanyBank bkash Personal  Confrimation stpe 2-->
+<template id="companybank_bkash_paymentconfirm_personal.html">
+  <ons-page id="companybank_bkash_paymentconfirm_personal">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="online_buy_wrapper" class="center">
+			<center>
+				<br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+						<div id="bkash-buy-instruction">
+							<!--বিকাশ থেকে আপনার মোবাইলে যে মেসেজটি <br/> এসেছে সেটা কপি করে পেস্ট বাটনে চাপ দিন  <br/> তারপর কনফার্ম বাটনে চাপ দিন -->
+							যে নাম্বার থেকে সেন্ড মানি করেছেন  প্রথম বক্সে মোবাইল নাম্বার  এবং যে রেফারেন্স কোডটি ব্যবহার করেছেন  দ্বিতীয় বক্সে সেই রেফারেন্স কোড  লিখুন  তারপর   <br/> "Go For TrxId" বাটনে চাপ দিন 
+						</div>
+					
+					
+					<!--<form id="direct_buy_go_for_trxid">	-->
+					<form id="companybank_buy_go_for_trxid">				
+						<p>
+							<label class="bangla-label"> যে নম্বর থেকে সেন্ডমানি করেছেন    </label> <br/>
+							<input id="companybank_buy_bkash_mobile" type="text" class="apps_input" placeholder="bKash Sender Number"  style="text-transform: uppercase" required>
+						</p>
+						
+						<p>
+								<label class="bangla-label"> যে রেফারেন্স কোডটি ব্যবহার করেছেন </label> <br/>
+								<input id="companybank_buy_bkash_refcode" type="text" class="apps_input" placeholder="Send Money Ref. Code"  style="text-transform: uppercase" required>
+							</p>
+						
+						<p> 
+							 <i class="zmdi zmdi-arrow-right"></i> <input type="submit" id="" class="go_for_button" value="Go for TrxId ">
+						</p>	
+					</form>		
+					
+					
+					<form id="companybank_buy_bkash_confirm">
+					
+
+						
+						<div  style="display: none" id="companybank_buy_trxid_inputbox">						
+							<p>
+								<label class="bangla-label">  বিকাশ  TrxID <!-- লিখুন  or মেসেজটি পেস্ট করুন --></label> <br/>
+								<input id="companybank_buy_bkash_trxid" type="text" class="apps_input" placeholder="bKash TrxID"  style="text-transform: uppercase" required>
+							</p>
+							
+							<p>
+							  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+						</div>
+						<!--
+						<div style="margin-top: 10px" class="paste_button">
+							<ons-button id="direct_buy_paste" modifier="large" class="red_button"  tappable>  Paste </ons-button>
+						</div>
+						-->
+					
+					</form>
+					
+						<p>
+							<button onclick="fn.load('companybank_gift_bkash_paymentoption_personal.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center" > <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// CompanyBank gift bkash Persoanl Confrimation end -->
+
+
+<!-- ..// CompanyBank gift bkash Payment sim   Instruction -->
+<template id="companybank_bkash_paymentoption_payment.html">
+  <ons-page id="companybank_bkash_paymentoption_payment">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div class="content-box">
+			<div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+	
+		<div id="online_buy_wrapper" class="center">
+			<center>
+				<br/><br/>
+					<div class="big-title"> পেমেন্ট অপশান </div>
+	
+					
+						<div id="bkash-buy-instruction">
+							
+						</div>
+						
+						<br/>
+						
+						<p style="margin-top: 15px;">
+						  <button type="submit" class="apps_button" onclick="fn.load('companybank_bkash_paymentconfirm_payment.html')"> পরবর্তি অপশনে যান </button>
+						</p>
+						
+						
+						<div id="bkash-buy-terms">
+							নোট: বিকাশ সেন্ডমানি ব্যতিত ফ্লেক্সিলোড অথবা ক্যাশইন করলে আপনার ট্রানজেকশনটি সম্পন্ন হবে না এবং এর জন্য কর্তৃপক্ষ দায়ী থাকবে না
+						</div>
+						
+							<br/>
+
+						
+						<p style="padding: 8px;">
+							<button onclick="fn.load('home.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+				
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center" > <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+<!-- ..// CompanyBankbkash Payment sim   Instruction step 1-->
+
+
+
+<!-- ..// CompanyBank bkash Payment sim   Confirm step 2-->
+<template id="companybank_bkash_paymentconfirm_payment.html">
+  <ons-page id="companybank_bkash_paymentconfirm_payment">
+  
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+
+	
+	<div class="content-box">
+	
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="online_buy_wrapper" class="center">
+			<center>
+				<br/>
+					<div class="big-title"> পেমেন্ট কনফার্ম </div>
+						<div id="bkash-payment_buy-instruction">
+							<!--বিকাশ থেকে আপনার মোবাইলে যে মেসেজটি <br/> এসেছে সেটা কপি করে পেস্ট বাটনে চাপ দিন  <br/> তারপর কনফার্ম বাটনে চাপ দিন -->
+							যে নাম্বার থেকে পেমেন্ট করেছেন  প্রথম বক্সে  সেই মোবাইল নাম্বার  এবং যে রেফারেন্স কোডটি ব্যবহার করেছেন  দ্বিতীয় বক্সে সেই রেফারেন্স কোড  লিখুন  তারপর   <br/> "Go For TrxId" বাটনে চাপ দিন 
+						</div>
+					
+					
+					<form id="direct_buy_bkashpayment_go_for_trxid">								
+						<p>
+							<label class="bangla-label"> যে নম্বর থেকে পেমেন্ট  করেছেন    </label> <br/>
+							<input id="direct_buy_bkash_payment_mobile" type="text" class="apps_input" placeholder="bKash Sender Number"  style="text-transform: uppercase" required>
+						</p>
+						
+						<p>
+								<label class="bangla-label"> যে রেফারেন্স কোডটি ব্যবহার করেছেন </label> <br/>
+								<input id="direct_buy_bkash_payment_refcode" type="text" class="apps_input" placeholder="Send Money Ref. Code"  style="text-transform: uppercase" required>
+						</p>
+						
+						<p> 
+							 <i class="zmdi zmdi-arrow-right"></i> <input type="submit" id="" class="go_for_button" value="Go for TrxId ">
+						</p>	
+					</form>		
+					
+					
+					<form id="direct_buy_bkash_payment_confirm">
+						<div  style="display: none" id="direct_buy_bkash_payment_trxid_inputbox">						
+							<p>
+								<label class="bangla-label">  বিকাশ  TrxID <!-- লিখুন  or মেসেজটি পেস্ট করুন --></label> <br/>
+								<input id="direct_buy_bkash_payment_trxid" type="text" class="apps_input" placeholder="bKash TrxID"  style="text-transform: uppercase" required>
+							</p>
+							
+							<p>
+							  <input type="submit" class="apps_button"  value="কনফার্ম">
+							</p>
+						</div>
+					</form>
+					
+						<p>
+							<button onclick="fn.load('direct_gift_bkash_paymentoption_payment.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
+<!-- Company Bank buy end-->	
+
+<!--######################## ACCOUNT AND SYSTEM --- start -->
+
+
+<!-- Change Password--->
+<template id="change_pass.html">
+  <ons-page id="change_pass">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div style="" class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<center>
+		<br/>
+		<br/>
+		<br/>
+
+		<br/>
+			<div id="" class="center">
+				<img style="margin: 1px auto" src="images/forget_pass.png" width="30%"> 
+				
+				<div class="apps-page-title"> Change Password </div>
+				
+				 <div class="apps_form_box">
+				 
+					<form id="cnahge_password_form">
+					
+						<p>
+							<label> Old Password </label> <br/>
+							<input id="changepass_old_pass" type="password" class="apps_input"  required>
+						</p>
+						<p>
+							<label> New Password </label> <br/>
+							<input id="changepass_new_pass"  type="password"  class="apps_input" required>
+						</p>
+						
+						<p style="margin-top: 30px;">
+						  <input type="submit" class="apps_button" value="Change Password">
+						</p>
+						<br/>
+						<br/>
+						<br/>
+					
+					</form>
+					
+				  </div>
+				
+			</div>
+			
+	
+
+  </ons-page>
+</template>
+
+
+
+<!-- 97 CR to  Teen--patti bank-->
+<template id="mBank_atm.html">
+  <ons-page id="mBank_atm">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        MinibankBD 
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div  id="balance_box" class="balance_box">
+		<ons-row>
+				<ons-col class="" width="90px">
+				<div style="display: inline-block"><img src="images/add_photo.png" width="80px;"></div>
+				</ons-col>
+				<ons-col class="" >
+				 <div class="player_name" style=""></div>
+				 <div class="tap_for_balance" style="" id="current_balance"> <img src="images/coin_icon.png" width="36px;" class="balancecoin"> 
+					<div class="balance_info" onclick="balanceInfo()"> Tap for Balance </div>
+				</div>
+				</ons-col>
+		</ons-row>
+	 </div>	
+	<div  class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<center>
+		
+		<br/>
+		<br/>
+			<div id="request_chips_wrapper" class="center">
+				<img style="margin: 1px auto" src="images/97cr_atm.png" width="30%"> 
+				
+				<div class="apps-page-title"> 100CR to Game Bank Transfer <br> <span style="font-size: 10px"> You will send 100CR to direct Game Bank </span></div>
+				
+				 <div class="apps_form_box">
+				 
+					<form id="mBank_atm_form">
+					
+						<p>
+							<input id="atm_to_playerid" type="text" class="apps_input" placeholder="Enter Player or Bullet Code" style="text-transform: uppercase" required>
+						</p>
+						
+						<p>
+							<input id="atm_to_comments" type="text" class="apps_input" placeholder="Comments" style="text-transform: uppercase" required>
+						</p>
+					
+						<p style="margin-top: 30px;">
+						  <input type="submit" class="apps_button" value="Transfer Chips">
+						</p>
+					
+					</form>
+					
+				  </div>
+				
+			</div>
+			
+					<button onclick="fn.load('home.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Back 
+					</button>
+					
+	</div>
+  </ons-page>
+</template>
+
+
+<!-- request chips-->
+<template id="request_chips.html">
+  <ons-page id="request_chips">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div  id="balance_box" class="balance_box">
+		<ons-row>
+				<ons-col class="" width="90px">
+				<div style="display: inline-block"><img src="images/add_photo.png" width="80px;"></div>
+				</ons-col>
+				<ons-col class="" >
+				 <div class="player_name" style=""></div>
+				 <div class="tap_for_balance" style="" id="current_balance"> <img src="images/coin_icon.png" width="36px;" class="balancecoin">
+					<div class="balance_info" onclick="balanceInfo()"> Tap for Balance </div>
+				</div>
+				</ons-col>
+		</ons-row>
+	 </div>	
+	<div  class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<center>
+		
+		<br/>
+		<br/>
+			<div id="request_chips_wrapper" class="center">
+				<img style="margin: 1px auto" src="images/request_chips.png" width="30%"> 
+				
+				<div class="apps-page-title"> Request Chips </div>
+				
+				 <div class="apps_form_box">
+				 
+					<form id="request_chips_form">
+					
+						<p>
+							<input id="request_to_playerid" type="text" class="apps_input" placeholder="Enter a MINIBANK registered Playerid" style="text-transform: uppercase" required>
+						</p>
+						<p>
+							<input id="request_amount"  type="number" min="1" max="10" class="apps_input" placeholder="Enter amount of Cr" required>
+						</p>
+						<p>
+						  <input id="request_chips_comments" type="text" class="apps_input" placeholder="Write a Comments Optional">
+						</p>
+						<p style="margin-top: 30px;">
+						  <input type="submit" class="apps_button" value="Request Chips">
+						</p>
+					
+					</form>
+					
+				  </div>
+				
+			</div>
+			
+					<button onclick="fn.load('home.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Back 
+					</button>
+					
+	</div>
+  </ons-page>
+</template>
+
+
+
+<!-- request incoming list-->
+<template id="request_chips_list.html">
+  <ons-page id="request_chips_list">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+        <i class="zmdi zmdi-home"></i>
+        </ons-toolbar-button>
+      </div>
+     
+	 <div class="center">
+        MinibankBD HOME
+      </div>
+	  
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+
+
+	<div  class="content-box">
+     
+	 <div class="apps-page-title center" style="text-align: center; padding-top: 5px;">Chips Request List</div>
+	  
+		<div id="request_chips_content">
+			
+		</div>
+	  
+    </div>
+	
+	
+  </ons-page>
+</template>
+
+
+<!-- ./ request chips --->
+
+<!-- Refer Friend -->
+<template id="refer_friend.html">
+  <ons-page id="refer_friend">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div  id="balance_box" class="balance_box">
+		<ons-row>
+				<ons-col class="" width="90px">
+				<div style="display: inline-block"><img src="images/add_photo.png" width="80px;"></div>
+				</ons-col>
+				<ons-col class="" >
+				 <div class="player_name" style=""></div>
+				 <div class="tap_for_balance" style="" id="current_balance"> <img src="images/coin_icon.png" width="36px;" class="balancecoin"> 
+					<div class="balance_info" onclick="setTimeout(balanceInfo(), 5000)"> Tap for Balance </div>
+				</div>
+				</ons-col>
+		</ons-row>
+	 </div>
+	
+	<div style="" class="content-box">
+	  <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<center>
+		
+		<br/> <br/>
+		
+			<div id="refer_friend_wrapper" class="center">
+				<img style="margin: 1px auto" src="images/refer_friend.png" width="30%"> 
+				
+				<div class="apps-page-title"> Refer Friend </div>
+				
+				 <div class="apps_form_box">
+				 
+					<form id="refer_friend">
+					
+						<p>
+							<input id="refer_friend_mobile" type="text" class="apps_input" type='tel' pattern='017+[0-9]{8}|018+[0-9]{8}|019+[0-9]{8}|015+[0-9]{8}|016+[0-9]{8}' title='Phone Number (Format: 01837664478)' placeholder="Enter a friend Mobile Number" required>
+						</p>
+						
+						<p style="margin-top: 30px;">
+						  <input type="submit" class="apps_button" value="Refer Friend">
+						</p>
+					
+					</form>
+					
+				  </div>
+				
+			</div>
+			
+			<center>
+				<button onclick="fn.load('home.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Back 
+					</button>  
+			</center>
+	
+	</div>
+	
+  </ons-page>
+</template>
+
+
+
+
+<!-- Account Info --->
+<template id="account_info.html">
+  <ons-page id="account_info">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	<div  id="balance_box" class="balance_box">
+		<ons-row>
+				<ons-col class="" width="90px">
+				<div style="display: inline-block"><img src="images/add_photo.png" width="80px;"></div>
+				</ons-col>
+				<ons-col class="" >
+				 <div class="player_name" style=""></div>
+				 <div class="tap_for_balance" style="" id="current_balance">  <img src="images/coin_icon.png" width="36px;" class="balancecoin">
+					<div class="balance_info" onclick="setTimeout(balanceInfo(), 5000)"> Tap for Balance </div>
+				</div>
+				</ons-col>
+		</ons-row>
+	 </div>
+	
+	<div style="" class="content-box">
+	  <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<center>
+		
+		<br/> <br/>
+		
+			<div id="refer_friend_wrapper" class="center">
+							
+				<div class="apps-page-title"> Account Information </div>
+				
+					<div class="apps_form_box" >
+				 
+						<div id="accout_detail" style="padding: 17px; text-align: left"></div>
+					
+					</div>
+				
+			</div>
+			<br/>
+			<br/>
+			<center>
+				<button onclick="fn.load('home.html')" class="backbutton">
+					  <i class="zmdi zmdi-arrow-left"></i> Back 
+					</button>  
+			</center>
+			
+		
+			
+			
+	</div>
+
+			
+  </ons-page>
+</template>
+
+
+<!-- Help Line-->
+<template id="help.html">
+  <ons-page id="help">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD HOME
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	
+	<div style="" class="content-box">
+		<div id="help_wrapper" class="" style="padding: 14px;">			
+			<div class="apps-page-title"> Help </div>
+				<ons-list>
+				  <ons-list-item><div class="help_text"> <i class="zmdi zmdi-bookmark"></i> সমপরিমান টাকা পর পর বিকাশ করা যায় না। এই জন্য পর পর বিকাশ করলে ১ টাকা বেশি দিয়ে বিকাশ করবেন। উদাহরন : ৭৫/৭৬/৭৭ </div></ons-list-item>
+				  <ons-list-item><div class="help_text"> <i class="zmdi zmdi-bookmark"></i> বিকাশ সেন্ড মানি করার সময় সফাটওয়্যার থেকে দেয়া রেফারেন্স  কোড ব্যবহার করুন অন্যথায় চিপস ক্রয় করতে পারবেন না সুতরাং  প্রতিবার বিকাশ করার আগে অবশ্যই রেফারেন্স কোড দেখে বিকাশ করবেন </div></ons-list-item>
+				   <ons-list-item><div class="help_text"> <i class="zmdi zmdi-bookmark"></i> খেলার ভিতর চিপস উইথড্র করলে চিপস যদি ব্যালেন্স এ যোগ না হয় তাহলে মেয়েটিকে দুই একবার টিপস্ দিন। ব্যালেন্স যোগ হয়ে যাবে। </div></ons-list-item>
+				  <ons-list-item><div class="help_text"> <i class="zmdi zmdi-bookmark"></i> প্লেয়ার আইডি বসানোর সময় অবশ্যই দেখে শুনে বসাবেন। ভুল আইডি তে চিপ্স গেলে কর্তৃপক্ষ দায়ী নয়</div></ons-list-item>
+				  <ons-list-item><div class="help_text"> <i class="zmdi zmdi-bookmark"></i> আমাদের সার্ভারে বিকাশ করার আগে অবশ্যই নাম্বারটি দেখে তারপর বিকাশ করবেন। আমাদের নাম্বার গুলি প্রতিদিনই পরিবর্তন হয় </div></ons-list-item>
+				  <ons-list-item><div class="help_text"> <i class="zmdi zmdi-bookmark"></i> ক্যাশইন (বিকাশ এজেন্ট) অথবা ফ্ল্যাক্সিলোডে চিপ্স ক্র‍য় করা যাবে না এই ক্ষেত্রে আপনার ট্রান্সজেকশনটি গ্রহণযোগ্য হবে না </div></ons-list-item>
+				  <ons-list-item><div class="help_text"> <i class="zmdi zmdi-bookmark"></i> পাসওয়ার্ড ব্যাবহারে সতর্ক থাকবেন। অবশ্যই স্ট্রং পাসওয়ার্ড ব্যাবহার করবেন। আপনার পাসওয়ার্ড কারো সাথে শেয়ার করবেন না। সে ক্ষেত্রে আপনার একাউন্ট এর দায়ভার কর্তৃপক্ষ গ্রহন করবে না </div></ons-list-item>
+				  <ons-list-item><div class="help_text"> <i class="zmdi zmdi-bookmark"></i> আমাদের সেবাটি গ্রহনের সময় কোন রকম সমস্যায় পড়লে শুধু মাত্র এপ এ দেয়া আমাদের হেল্প লাইনে যোগাযোগ করবেন। (সকাল ১১ থেকে রাত ১২ টা) </div></ons-list-item>
+				  <ons-list-item><div class="help_text"><i class="zmdi zmdi-bookmark"></i> বিকাশে টাকা পাঠানোর পর যদি টেকনিক্যাল সমস্যার কারনে চিপ্স না পেয়ে থাকেন তাহলে সাথে সাথে হেল্প লাইনে কল অথবা ম্যাসেজ করে আপনি সমাধান করে নিতে পারেন </div></ons-list-item>
+				  <ons-list-item><div class="help_text"><i class="zmdi zmdi-bookmark"></i> আমাদের মিনি ব্যাংকের যে কোন তথ্য আমরা নটিফিকেশন এর মাধ্যমে জানিয়ে দেব অন্য কোন উপায়ে কেউ ফোন অথবা ম্যাসেজ করে তথ্য নেয়ার চেষ্টা করলে সাথে সাথে আমাদের হেল্প লাইনে জানাবেন। </div></ons-list-item>
+				</ons-list>	
+		</div>
+				
+		
+			
+		<center>
+			<button onclick="fn.load('home.html')" class="backbutton">
+				  <i class="zmdi zmdi-arrow-left"></i> Back 
+				</button>  
+		</center>
+			
+	
+	</div>
+
+			
+  </ons-page>
+</template>
+
+
+<!-- Notification Line-->
+<template id="notification.html">
+  <ons-page id="help">
+    <ons-toolbar>
+	  <div class="left">
+        <ons-toolbar-button onclick="fn.home()">
+          <ons-icon icon="md-home"></ons-icon>
+        </ons-toolbar-button>
+      </div>
+     
+      <div class="center">
+        MinibankBD Notification
+      </div>
+	   <div class="right">
+        <ons-toolbar-button onclick="fn.open()">
+          <i class="zmdi zmdi-apps"></i>
+        </ons-toolbar-button>
+      </div>
+	
+    </ons-toolbar>
+	
+	
+	<div style="" class="content-box">
+		<div id="help_wrapper" class="" style="padding: 14px;">			
+			<div class="apps-page-title"> Notification </div>
+				<ons-list>
+				  <ons-list-item><div class="help_text"> <i class="zmdi zmdi-bookmark"></i> notificaqiton goes here lst </div></ons-list-item>
+				 
+				</ons-list>	
+		</div>
+				
+		
+			
+		<center>
+			<button onclick="fn.load('home.html')" class="backbutton">
+				  <i class="zmdi zmdi-arrow-left"></i> Back 
+				</button>  
+		</center>
+			
+	
+	</div>
+
+			
+  </ons-page>
+</template>
+
+
+<ons-modal direction="up">
+  <div style="text-align: center">
+    <p>
+      <ons-icon icon="md-spinner" size="28px" spin></ons-icon> Loading...
+    </p>
+  </div>
+</ons-modal>
+
+<ons-modal id="internetcheck" direction="up">
+  <div style="text-align: center">
+    <p>
+      <ons-icon icon="md-spinner" size="28px" spin></ons-icon> No Internet Connection
+    </p>
+  </div>
+</ons-modal>
+<!-- https://stackoverflow.com/questions/10945759/jquery-plugin-for-detecting-internet-connection-->
+</body>
+</html>

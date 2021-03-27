@@ -1,0 +1,23 @@
+home -> 
+history
+gift_chips-> 
+withdraw_chips
+bank_to_bank
+
+
+buy_chips 	-> direct_gift_bkash 		-> payment_option_select 					-> direct_gift_nagad_paymentoption 						-> direct_gift_nagad_paymentconfirm
+																					-> direct_gift_bkash_paymentoption_personal				-> 
+																					-> direct_gift_bkash_paymentoption_payment				-> direct_gift_bkash_paymentconfirm_payment
+
+			->	bank_buy_bkash			-> bank_payment_option_select 				-> bank_buy_bkash_paymentoption_personal				-> bank_buy_bkash_paymentconfirm
+																					-> bank_buy_bkash_paymentoption_payment					-> bank_buy_bkash_payment_paymentconfirm
+																					-> bank_buy_nagad_paymentoption_personal				-> bank_buy_nagad_payment_paymentconfirm
+			
+			-> another_minibank_bkash	-> another_minibank_payment_option_select	-> another_minibank_buy_bkash_paymentoption_personal 	-> another_minibank_bkash_buy_paymentconfirm_personal
+																					-> another_minibank_buy_bkash_paymentoption_payment  	-> another_minibank_bkash_buy_paymentconfirm_payment
+																					-> another_minibank_buy_nagad_paymentoption				-> another_minibank_buy_nagad_paymentconfirm
+										
+-> companybank_buy						-> companybank_payment_option_select 		-> companybank_nagad_paymentoption 						-> companybank_nagad_paymentconfirm
+																					-> companybank_buy_bkash_paymentoption_personal(1854)
+																					
+																					
