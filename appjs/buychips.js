@@ -48,7 +48,7 @@ document.addEventListener('init', function(event) {
 					var direct_buy_playerid = $("#direct_buy_playerid").val();
 					var direct_buy_amount = $("#direct_buy_amount").val();
 
-					var data = {data: {title: 'Buy Chips',buy_type:buy_type,playerid:direct_buy_playerid,direct_buy_amount:direct_buy_amount}}
+					var data = {data: {title: 'Buy Chips',buy_type:buy_type,playerid:direct_buy_playerid,chips_amount:direct_buy_amount}}
 					fn.pushpage("payment_option_select.html",data,"fade");
 					
 					
@@ -56,14 +56,39 @@ document.addEventListener('init', function(event) {
 				
 		
 	  }
+	  
+	   
+ // Bank Buy //
+  if (page.matches('#bank_buy')) {
+	  
+	  console.log(page.data);
+		
+		var buy_type = page.data.buy_type;
+		var playerid = localStorage.getItem("playerid");
+
+			
+		  $("#bank_buy_first").one('submit',function(e) {
+				e.preventDefault(); // avoid to execute the actual submit of the form.
+									
+					var chips_amount = $("#chips_amount").val();
+			
+					var data = {data: {title: 'Buy Chips',buy_type:buy_type,playerid:playerid,chips_amount:chips_amount}}
+					fn.pushpage("payment_option_select.html",data,"fade");
+					
+					
+			});
+				
+		
+	  } 
+	  
 	
 // Payment Option select	
 	if (page.matches('#payment_option_select')) {
 		
-				
+	
 		var buy_type = page.data.buy_type;
 		var playerid = page.data.playerid;
-		var chips_amount = page.data.direct_buy_amount;
+		var chips_amount = page.data.chips_amount;
 			
 		page.querySelector('#bkash_sendmoney').onclick = function(){
 			var data = {data: {title: 'Buy Chips',buy_type:buy_type,playerid:playerid,chips_amount:chips_amount,gateway:'bkash_personal'}}
