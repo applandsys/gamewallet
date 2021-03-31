@@ -32,6 +32,11 @@ document.addEventListener('init', function(event) {
 	}
 	
 	
+	page.querySelector('#another_bank_load').onclick = function(){
+		var data = {data: {title: 'Bank Buy',buy_type:'bank_buy'}}
+		fn.pushpage("another_bank_buy.html",data,"fade");
+	}
+	
   }
   
  // Direct Gift buy 
@@ -61,7 +66,6 @@ document.addEventListener('init', function(event) {
  // Bank Buy //
   if (page.matches('#bank_buy')) {
 	  
-	  console.log(page.data);
 		
 		var buy_type = page.data.buy_type;
 		var playerid = localStorage.getItem("playerid");

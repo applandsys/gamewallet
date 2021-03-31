@@ -663,7 +663,7 @@
 						<ons-button id="minibak_load" modifier="large"  class="blue_button">  মিনিব্যাংকে লোড করুন (৫-১০০CR) </ons-button> 
 					</p>
 					<p>
-						<ons-button id="another_bank_load" modifier="large" class="blue_button" onclick="fn.load('another_minibank_bkash.html')" >  অন্য মিনিব্যাংক আইডিতে কিনুন (৫-১০০ CR) </ons-button>
+						<ons-button id="another_bank_load" modifier="large" class="blue_button" >  অন্য মিনিব্যাংক আইডিতে কিনুন (৫-১০০ CR) </ons-button>
 					</p>
 					<p>
 						<ons-button id="companybank_buy.html" modifier="large" class="blue_button" onclick="fn.load('companybank_buy.html')" >  কোম্পানীর ব্যাংকে কিনুন  (১০০  CR)</ons-button>
@@ -693,7 +693,6 @@
   </ons-page>
 </template>
 <!-- ./ Buy Chips Menu page end  -->
-
 
 
 <!-- Direct Gift Bkash == Buy chip buy korar 1st step ekhane player id and amount dibe pore payment option asbe  --->
@@ -1057,6 +1056,79 @@
 	
   </ons-page>
 </template>
+
+<template id="another_bank_buy.html">
+  <ons-page id="another_bank_buy">
+     <ons-toolbar style=" background:  #f3013c;">
+			<div class="left">
+			    <div class="left"><ons-back-button> Payment Istruction </ons-back-button></div>
+			</div>
+
+			<div class="center" align="center">
+				<div  align="center"><img src="images/logo.png" align="center" style="width: 50px;"></div>
+			</div>
+
+			<div class="right">
+
+			</div>
+	</ons-toolbar>
+	
+	<div class="content-box">
+	 <div id="ajaxloader" class="ajaxloader" style="display:none"> <img src="images/ajaxload-5.gif"> </div>
+		<div id="bank_buy_wrapper" class="center">
+			<center>
+			<br/><br/>
+			<div class="bg-title"> অন্য মিনিব্যাংকে লোড করুন</div>
+			<br/><br/>
+					<form id="another_minibank_bkash_buy_first">
+					
+						<br/>
+						<br/>
+						<br/>
+						<p>
+							<label class="bangla-label"> মিনিব্যাংক আইডি লিখুন  </label> <br/><br/>
+							<input id="another_minibank_bkash_buy_id" type="text" class="apps_input" placeholder="Another Minibank Id"  pattern="[A-Za-z]{4}[0-9]{3}|100+[0-9]{5,15}" title="Ex: HKPO101 or 10012574896366"   style="text-transform: uppercase"  onchange="trimSpace(this.value);" required>
+						</p>
+						
+						<p>
+							<label class="bangla-label">  কত কোটি চিপস ব্যাংকে লোড করবেন তা লিখুন   </label> <br/><br/>
+							<input id="another_minibank_bkash_amount" type="number" class="apps_input" placeholder="Enter amount of CR (5CR-100CR)" min="5" max="100"  style="text-transform: uppercase" required>
+						</p>
+				
+				
+						<p style="margin-top: 10px;">
+						  <input type="submit" class="apps_button"  value=" পরবর্তি অপশনে যান ">
+						</p>
+						
+						
+						
+						 <p style="margin-top: 10px; padding: 10px;">
+							<button onclick="fn.load('buy_chips.html')" class="backbutton">
+							  <i class="zmdi zmdi-arrow-left"></i> Back 
+							</button> 
+						</p>
+					
+						
+					
+					</form>
+				
+			</center>	
+		</div>	
+		
+		
+		<center>
+			<div id="buy_page_offer">
+				<div class="todays_offer" class="center" style=""  onclick="fn.openOffer()"> 	
+					<span class="center"> <i class="zmdi zmdi-card-giftcard"></i> Tap for Todays Offer </span>		
+				</div>
+			</div>
+		</center>
+		
+	</div>	
+	
+  </ons-page>
+</template>
+
 
 <!-- Change Password--->
 <template id="change_pass.html">
