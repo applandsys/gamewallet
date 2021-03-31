@@ -1,7 +1,5 @@
 window.fn = {};
 
-
-
 window.fn.exit =  function(){
 						ons.notification.alert({
 								title: 'Thanks!',
@@ -44,16 +42,10 @@ function NetproblemExit(){
 
 
 
-
-
-
-
-
-
 //alert(localStorage.getItem("name"));
 
 // Offer Open 
-window.fn.openOffer = function(){
+var openOffer = function(){
 	
 					$.ajax({
 							type: "POST",					
@@ -83,11 +75,7 @@ window.fn.openOffer = function(){
 	
 } 
 
-// Menu Open
-window.fn.open = function() {
-  var menu = document.getElementById('menu');
-  menu.open();
-};
+
 
 // Load Page //
 window.fn.load = function(page) {
@@ -97,7 +85,7 @@ window.fn.load = function(page) {
     .then(menu.close.bind(menu));
 };
 
-window.fn.pushpage = function(page,data,anime){
+var pushpage = function(page,data,anime){
 	document.querySelector('#myNavigator').pushPage(page,data,{animation: anime});
 }
 
@@ -119,16 +107,8 @@ window.fn.btobamount = 	function(value){
 							}	
 						};					
 
-// History open menu//
-window.fn.historyOpen = function() {
-  fn.load('history.html');
-};
 
-// Home Open by menu
-window.fn.home = function() {
-  loadAccountInfo();
-  fn.load('home.html');
-};
+
 
 // Logout
 window.fn.logout = function() {
@@ -422,11 +402,6 @@ window.fn.load = function(page) {
   var content = document.getElementById('content');
   content.load(page);
 };
-
-window.fn.pushpage = function(page,data,anime){
-	alert('index');
-	document.querySelector('#myNavigator').pushPage(page,data,{animation: anime});
-}
 
 
 window.fn.exit =  function(){

@@ -35,7 +35,7 @@ html , body{
 #opening-content-title{
 	 margin-top: 12%;
 	font-size: 1.5em;  
-
+color: #fff;
     font-family: Kalpurush;
     line-height: 1.1;
 	
@@ -105,6 +105,7 @@ min-height: 100%;
 
 .text-center{
 	text-align: center;
+
 }
 
 input[type=text], input[type=password] {
@@ -123,7 +124,7 @@ input[type=text], input[type=password] {
 		margin: 10px;
 		
 		border-radius: 9px;
-		background: #d9b282;
+		background: #f4083f;;
 		padding: 30px;
 		
 }
@@ -247,6 +248,7 @@ input[type=text].apps_input, input[type=password].apps_input, input[type=number]
 	margin-top: 20px;
 	    padding-left: 5px;
     padding-right: 5px;
+	color: #fff;
 }
 
 .balance_info{
@@ -491,7 +493,7 @@ label{
 
 
 .toolbar--material__center {
-    color: black;
+       color: #fff;
 }
 
 .bkash_tagline{
@@ -503,6 +505,23 @@ label{
     padding: 10px;
     width: 80%;
 	margin: auto;
+}
+
+.nagad_buy_terms{
+	 text-align: center;
+    font-family: kalpurush;
+	  font-weight: bold;
+}
+
+#nagad_buy_terms{
+	 text-align: center;
+    font-family: kalpurush;
+	  font-weight: bold;
+}
+
+.nagad_buy_instruction_confirm{
+	 font-family: kalpurush;
+	     font-weight: bold;
 }
 
 .button-wrapper{
@@ -579,7 +598,7 @@ img.bkash_logo{
 		font-family: Kalpurush;
 }
 
-#bkash-buy-instruction{
+#buy-instruction{
 	padding: 12px;
     background: #eee;
     margin: 10px;
@@ -591,7 +610,7 @@ img.bkash_logo{
     text-align: justify;
 }
 
-#bkash-buy-terms{
+#buy-terms{
 color: red;
     font-family: Kalpurush;
     font-size: 1.3em;
@@ -622,6 +641,7 @@ color: red;
 	
 		 text-align: justify;
     font-family: kalpurush;
+	font-weight: bold;
     font-size: 1.2em;
     line-height: 1.2;
     margin-top: 10px;
@@ -638,7 +658,8 @@ color: red;
     padding: 10px;
     border: transparent;
     border-radius: 6px;
-	color: #fff
+	color: #fff;
+	width: 50px;
 }
 
 .exitButton{

@@ -134,8 +134,6 @@ document.addEventListener('init', function(event) {
 					
 				}
 				
-			//	sessionStorage.setItem('direct_buy_bkash_playerid', null);
-			//	sessionStorage.setItem('direct_buy_bkash_amount', null);
 				
 			
 			});
@@ -333,6 +331,7 @@ document.addEventListener('init', function(event) {
 	
   }
   
+  
     if (event.target.matches('#quick_load_paymentconfirm_nagad_personal')) {
 		
 		var n=0;
@@ -342,13 +341,13 @@ document.addEventListener('init', function(event) {
 			
 			var quick_load_playerid			= 	sessionStorage.getItem('quick_load_playerid');
 			var quick_load_amount			=   sessionStorage.getItem('quick_load_amount');
-			var quick_load_bkash_trxid		= 	$("#quick_load_nagad_txnid").val();
+			var quick_load_nagad_txnid		= 	$("#quick_load_nagad_txnid").val();
 			var quick_load_token 			= 	sessionStorage.getItem('quick_load_token');
 
 			$.ajax({
 					type:'POST',
-					url:baseUrl+"Quick_load/quick_load_nagad",
-					data:{"action":"quick_load","quick_load_playerid":quick_load_playerid,"quick_load_amount":quick_load_amount,"quick_load_bkash_trxid":quick_load_bkash_trxid,"quick_load_token":quick_load_token,"request":n},
+					url:baseUrl+"Quick_load/quick_load_nagad_personal",
+					data:{"action":"quick_load","quick_load_playerid":quick_load_playerid,"quick_load_amount":quick_load_amount,"quick_load_nagad_txnid":quick_load_nagad_txnid,"quick_load_token":quick_load_token,"request":n},
 					dataType: 'json',
 					beforeSend: function(){
 								$(".ajaxloader").show();
@@ -391,6 +390,67 @@ document.addEventListener('init', function(event) {
 		
   }
   
+ // Payment confirm nagad // 
+    if (event.target.matches('#quick_load_paymentconfirm_nagad_payment')) {
+		
+		var n=0;
+		$("#trxid_load_form_nagad_payment").on('submit',function(e) {
+			e.preventDefault(e); // avoid to execute the actual submit of the form.
+			++n;		
+			
+			var quick_load_playerid			= 	sessionStorage.getItem('quick_load_playerid');
+			var quick_load_amount			=   sessionStorage.getItem('quick_load_amount');
+			var quick_load_nagad_trxid		= 	$("#quick_load_nagad_txnid").val();
+			var quick_load_token 			= 	sessionStorage.getItem('quick_load_token');
+
+			$.ajax({
+					type:'POST',
+					url:baseUrl+"Quick_load/quick_load_nagad_payment",
+					data:{"action":"quick_load","quick_load_playerid":quick_load_playerid,"quick_load_amount":quick_load_amount,"quick_load_nagad_trxid":quick_load_nagad_trxid,"quick_load_token":quick_load_token,"request":n},
+					dataType: 'json',
+					beforeSend: function(){
+								$(".ajaxloader").show();
+							},
+					complete: function(){
+								$(".ajaxloader").hide();
+							},
+					success: function(data){
+											
+						 if(data.status=="success"){
+							 
+							 ons.notification.alert({
+									title: 'Congrates!',
+									message: '<center>'+ data.message+ '</center>',
+									callback: function(answer) {
+										fn.load('start_page.html');
+									}
+							  });
+							 
+							
+						}else if(data.status=="invalid"){
+								 
+							ons.notification.alert({
+													title: 'Sorry!',
+													message: '<center>'+data.message+'</center>'
+												  });
+						}
+						
+					},
+					error: function(data){
+						ons.notification.alert("Error Connection.");
+						
+					}
+					
+				}); 
+			
+			return false;		
+				
+		});	
+		
+  }
+  
+  
+  
  // end init 
 }, false);
 
@@ -420,7 +480,7 @@ function Nagadtrxidfilterdirectby(str){
 
 var quick_load_token_create =	function(){
 	
-										var buy_token = localStorage.getItem("quick_load_token");
+										var buy_token = sessionStorage.getItem("quick_load_token");
 										
 										if(buy_token===null){
 												$.ajax({
@@ -430,7 +490,7 @@ var quick_load_token_create =	function(){
 													dataType: 'json',
 													success: function(data){
 																		
-														localStorage.setItem("quick_load_token",data.token);
+														sessionStorage.setItem("quick_load_token",data.token);
 														
 													},
 													error: function(data){
@@ -497,7 +557,7 @@ var quickloaPaymentNumberPayment =  function(amount_cr){
 	
 							
 									//var amount_cr	= $("#direct_buy_bkash_amount").val();
-									var quick_load_token 	= localStorage.getItem("quick_load_token");
+									var quick_load_token 	= sessionStorage.getItem("quick_load_token");
 									var quickload_playerid 	= sessionStorage.getItem("quick_load_playerid");
 									
 									$.ajax({
@@ -544,7 +604,7 @@ var quickloaPersonalNumberNagad =  function(amount_cr){
 	
 							
 									//var amount_cr	= $("#direct_buy_bkash_amount").val();
-									var quick_load_token = localStorage.getItem("quick_load_token");
+									var quick_load_token = sessionStorage.getItem("quick_load_token");
 									
 									$.ajax({
 											type:'POST',
@@ -584,43 +644,43 @@ var quickloaPersonalNumberNagad =  function(amount_cr){
 var quickloaPaymentNumberNagad =  function(amount_cr){
 	
 							
-									//var amount_cr	= $("#direct_buy_bkash_amount").val();
-									var quick_load_token = localStorage.getItem("quick_load_token");
-									
-									$.ajax({
-											type:'POST',
-											url:baseUrl+"Payment_number/nagadNumbers_payment",
-											data:{"action":"quick_load_nagad_personal","quick_load_token":quick_load_token,"amount_cr":amount_cr},
-											dataType: 'json',
-											beforeSend: function(){
-												$(".ajaxloader").show();
-											},
-											complete: function(){
-												$(".ajaxloader").hide();
-											},
-											success: function(data){
-																
-												 if(data.status=="success"){
-													
-													$("#nagad-buy-instruction").html(data.message);
-													$("#nagad-buy-terms").html(data.notification);
-													 
-													
-												}else if(data.status=="invalid"){
-														ons.notification.alert({
-																			title: 'Sorry!',
-																			message: '<center>'+data.message+'</center>'
-																		  });
-												}
-												
-											},
-											error: function(data){
-												ons.notification.alert("Error Connection.");
-												
-											}
+			//var amount_cr	= $("#direct_buy_bkash_amount").val();
+			var quick_load_token = sessionStorage.getItem("quick_load_token");
+			
+			$.ajax({
+					type:'POST',
+					url:baseUrl+"Payment_number/nagadNumbers_payment",
+					data:{"action":"quick_load_nagad_personal","quick_load_token":quick_load_token,"amount_cr":amount_cr},
+					dataType: 'json',
+					beforeSend: function(){
+						$(".ajaxloader").show();
+					},
+					complete: function(){
+						$(".ajaxloader").hide();
+					},
+					success: function(data){
 										
-										}); 
+						 if(data.status=="success"){
+							
+							$("#nagad-buy-instruction").html(data.message);
+							$("#nagad-buy-terms").html(data.notification);
+							 
+							
+						}else if(data.status=="invalid"){
+								ons.notification.alert({
+													title: 'Sorry!',
+													message: '<center>'+data.message+'</center>'
+												  });
 						}
+						
+					},
+					error: function(data){
+						ons.notification.alert("Error Connection.");
+						
+					}
+				
+				}); 
+}
 						
 						
 var load_helpline = function(){

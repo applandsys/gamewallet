@@ -4,9 +4,22 @@ if(navigator.onLine){
 	showModalInternet();
 }
 
-
-
 ///=======================================================================///
+	
+
+
+// History open menu//
+var historyOpen = function() {
+  fn.load('history.html');
+};
+
+
+// Home Open by menu
+var home = function() {
+  loadAccountInfo();
+  fn.load('home.html');
+};
+
 // After Login panel home init //
 document.addEventListener('init', function(event) {
   if (event.target.matches('#home')) {
@@ -17,14 +30,7 @@ document.addEventListener('init', function(event) {
 	}  
 	loadAccountInfo();
   }
-}, false);		
-
-
-window.fn.pushpage = function(page,data,anime){
-	document.querySelector('#myNavigator').pushPage(page,data,{animation: anime});
-}
-
-
+}, false);	
 
 //  Request Chips
 document.addEventListener('init', function(event) {

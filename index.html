@@ -86,7 +86,7 @@
 		 
 		<div id="opening-start-box" class="text-center gray-box">
 			<div id="start-instruction" class="instruction-text">
-				মিনিব্যাংক বিডি  ব্যবহার শুরু করতে  <br/>
+				গেমস ওয়ালেট  ব্যবহার শুরু করতে  <br/>
 			
 				নিচের    START  বাটনে ক্লিক করুন
 			</div>
@@ -605,7 +605,7 @@
 						
 			
 						<div id="nagad_payment" onclick="fn.load('quick_load_paymentoption_nagad_payment.html')"> 		
-							<img src="images/nagad.png" width="60%"> 		
+							<img src="images/nagad_payment.png" width="60%"> 		
 						</div>
 					
 						<div id="rocket_payment" onclick="openRocket()"> 	
@@ -869,7 +869,7 @@
 					<div class="big-title"> পেমেন্ট অপশান </div>
 	
 					
-						<div id="nagad-buy-instruction">
+						<div id="nagad-buy-instruction" style="padding: 3px">
 							
 						</div>
 						<br/>
@@ -879,7 +879,7 @@
 						</p>
 						
 						
-						<div id="nagad-buy-terms">
+						<div id="nagad-buy-terms" style="color: red">
 							
 						</div>
 						
@@ -927,7 +927,7 @@
 			<center>
 				<br/>
 					<div class="big-title"> পেমেন্ট  কনফার্ম </div>
-							<div id="bkash-buy-instruction">
+							<div id="nagad-buy-instruction">
 								আপনার মোবাইলের ইনবক্সে  Nagad থেকে আসা এসএমএসটি কপি করে পেস্ট করুন অথবা  TxnID টি লিখুন তারপর  কনফার্ম বাটনে চাপ দিন
 							</div>
 					
@@ -943,30 +943,6 @@
 					
 						</form>
 					
-					
-					
-						<form id="quick_load_confirm_bkash_payment">
-						
-							<div style="display: none" id="quick_load_trxid_inputbox">	
-															
-								<p>
-									<label class="bangla-label">  বিকাশ  TrxID <!-- লিখুন  or মেসেজটি পেস্ট করুন --> </label> <br/>
-									<input id="quick_load_bkash_trxid" type="text" class="apps_input" disabled="disabled" placeholder="bKash TrxID"  style="text-transform: uppercase" style="width: 100px" required>
-								
-								</p>
-								
-								<p>
-								  <input type="submit" class="apps_button"  value="কনফার্ম">
-								</p>
-							</div>
-							
-							<!--
-							<div style="margin-top: 10px" class="paste_button">
-								<ons-button id="direct_buy_paste" modifier="large" class="red_button"  tappable>  Paste </ons-button>
-							</div>
-							-->
-
-						</form>
 					
 						<p>
 							<button onclick="fn.load('quick_load_paymentoption_nagad_personal.html')" class="backbutton">
@@ -993,7 +969,6 @@
 </template>
 
 
-
 <template id="quick_load_paymentoption_nagad_payment.html">
   <ons-page id="quick_load_paymentoption_nagad_payment">
 	
@@ -1003,15 +978,13 @@
 			<center>
 				<br/><br/>
 					<div class="big-title"> পেমেন্ট অপশান </div>
-	
-					
 						<div id="nagad-buy-instruction">
 							
 						</div>
 						<br/>
 						
 						<p style="margin-top: 15px;">
-						  <button type="submit" class="apps_button" onclick="fn.load('quick_load_paymentconfirm_nagad_personal.html')"> পরবর্তি অপশনে যান </button>
+						  <button type="submit" class="apps_button" onclick="fn.load('quick_load_paymentconfirm_nagad_payment.html')"> পরবর্তি অপশনে যান </button>
 						</p>
 						
 						
@@ -1020,9 +993,6 @@
 						</div>
 						
 							<br/>
-
-						
-						
 						<p style="padding: 8px;">
 							<button onclick="fn.load('quick_load_payment_option_select.html')" class="backbutton">
 							  <i class="zmdi zmdi-arrow-left"></i> Back 
@@ -1063,11 +1033,11 @@
 			<center>
 				<br/>
 					<div class="big-title"> পেমেন্ট  কনফার্ম </div>
-							<div id="bkash-buy-instruction">
-								আপনার মোবাইলের ইনবক্সে  Nagad থেকে আসা এসএমএসটি কপি করে পেস্ট করুন অথবা  TxnID টি লিখুন তারপর  কনফার্ম বাটনে চাপ দিন
+							<div id="nagad-buy-instruction">
+								
 							</div>
 					
-						<form id="trxid_load_form_nagad_personal">
+						<form id="trxid_load_form_nagad_payment">
 								<p>
 								<label class="bangla-label"> নগদ  TxnID </label> <br/>
 								<input  id="quick_load_nagad_txnid" type="text" class="apps_input" placeholder="Nagad TxnID"  style="text-transform: uppercase" onchange="Nagadtrxidfilterdirectby(this.value);" required>
@@ -1078,34 +1048,10 @@
 							</p>
 					
 						</form>
-					
-					
-					
-						<form id="quick_load_confirm_bkash_payment">
-						
-							<div style="display: none" id="quick_load_trxid_inputbox">	
-															
-								<p>
-									<label class="bangla-label">  বিকাশ  TrxID <!-- লিখুন  or মেসেজটি পেস্ট করুন --> </label> <br/>
-									<input id="quick_load_bkash_trxid" type="text" class="apps_input" disabled="disabled" placeholder="bKash TrxID"  style="text-transform: uppercase" style="width: 100px" required>
-								
-								</p>
-								
-								<p>
-								  <input type="submit" class="apps_button"  value="কনফার্ম">
-								</p>
-							</div>
-							
-							<!--
-							<div style="margin-top: 10px" class="paste_button">
-								<ons-button id="direct_buy_paste" modifier="large" class="red_button"  tappable>  Paste </ons-button>
-							</div>
-							-->
-
-						</form>
+				
 					
 						<p>
-							<button onclick="fn.load('quick_load_paymentoption_nagad_personal.html')" class="backbutton">
+							<button onclick="fn.load('quick_load_paymentoption_nagad_payment.html')" class="backbutton">
 							  <i class="zmdi zmdi-arrow-left"></i> Back 
 							</button> 
 						</p>
